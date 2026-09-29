@@ -784,7 +784,7 @@ async function main() {
       await exited;
     }
     server.close();
-    rmSync(profileDir, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 });
+    try { rmSync(profileDir, { recursive: true, force: true, maxRetries: 10, retryDelay: 200 }); } catch { /* Linux에서는 Chrome 보조 프로세스가 잠시 더 파일을 써서 실패할 수 있다. 임시 폴더라 검증 결과와 무관 */ }
   }
 
   const seconds = ((Date.now() - startedAt) / 1000).toFixed(1);
