@@ -98,7 +98,7 @@ const handleScroll = () => {
   scrollTopButton.classList.toggle('visible', scrollY >= SCROLL_TOP_THRESHOLD);
 };
 
-// passive: true → 스크롤을 막지 않겠다고 브라우저에 알려 스크롤 성능을 지킨다
+// passive: true → 이 리스너는 preventDefault로 스크롤을 막지 않는다는 표시 (scroll은 원래 취소할 수 없어 효과보다 의도 표시)
 window.addEventListener('scroll', handleScroll, { passive: true });
 handleScroll(); // 새로고침 후 스크롤 위치가 복원된 경우에도 올바른 상태로 시작
 

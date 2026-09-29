@@ -195,6 +195,7 @@ Codyssey_1_1/
 │   ├── favicon.svg             # 브라우저 탭 아이콘
 │   └── screenshots/            # README용 스크린샷 17장 (데스크톱·모바일·다크·상태별·폼)
 ├── docs/
+│   ├── REVIEW_GUIDE.md         # 동료평가 항목(1~5)별 시연 순서와 답변
 │   ├── QNA.md                  # 동료평가 예상 질문과 답변
 │   └── CONCEPTS.md             # 과제에 쓰인 개념 정리
 ├── .vscode/
@@ -1074,6 +1075,7 @@ if (!response.ok) throw new Error(`Formspree 응답 오류 (HTTP ${response.stat
 
 | 문서 | 내용 |
 |---|---|
+| [docs/REVIEW_GUIDE.md](docs/REVIEW_GUIDE.md) | **평가 항목별 가이드** — 실제 동료평가표 항목 1~5에 맞춘 시연 순서, 30초 답변, 코드 위치, 꼬리 질문 대비 |
 | [docs/QNA.md](docs/QNA.md) | **예상 질문 & 답변** — 동료평가에서 나올 만한 질문(왜 이렇게 만들었는지, 코드가 어떻게 동작하는지)과 답변 |
 | [docs/CONCEPTS.md](docs/CONCEPTS.md) | **개념 정리** — 시맨틱 HTML, Flexbox · Grid, DOM 이벤트, ES6+ 문법, fetch · async/await, 상태 → 렌더링 흐름 등 이 프로젝트에 쓰인 개념 |
 

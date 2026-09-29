@@ -2076,7 +2076,7 @@ localStorage.getItem('theme')                             // 저장된 테마
 **Network — 요청과 응답**
 - `Fetch/XHR` 필터로 `api.github.com` 요청을 골라 Headers 탭에서 `x-ratelimit-remaining`을 확인하세요.
 - **Throttling**(`No throttling` 드롭다운)을 느린 네트워크로 바꾸면 로딩 스피너를 오래 볼 수 있습니다.
-- **Offline**으로 바꾸고 새로고침 또는 "다시 시도" → "네트워크에 연결할 수 없습니다" 에러 상태.
+- 에러 화면이 떠 있을 때 **Offline**으로 바꾸고 "다시 시도" → "네트워크에 연결할 수 없습니다" 에러 상태. (Offline 상태에서 **새로고침**하면 페이지 자체가 열리지 않으니 주의)
 - 요청을 우클릭 → **Block request URL** → 새로고침하면 API가 막힌 상황을 재현합니다.
 - 반복 테스트는 레이트 리밋(시간당 60회)을 쓰므로, 상태 UI 확인은 `?demo=` 파라미터를 먼저 쓰세요.
 
@@ -2329,7 +2329,7 @@ transition은 값이 바뀔 때 A→B를 잇고, animation은 keyframes를 스�
 <details>
 <summary><b>Q15. 로딩·에러·빈 상태를 평가자가 직접 보려면?</b></summary>
 
-주소 뒤에 `?demo=loading`, `?demo=error`, `?demo=empty`를 붙이면 됩니다 — [js/projects.js#L215-L223](../js/projects.js#L215-L223). 실제 네트워크 오류는 DevTools Network 탭의 Offline이나 Block request URL로 재현할 수 있습니다.
+주소 뒤에 `?demo=loading`, `?demo=error`, `?demo=empty`를 붙이면 됩니다 — [js/projects.js#L215-L223](../js/projects.js#L215-L223). 실제 네트워크 오류는 DevTools Network 탭에서 API 요청만 **Block request URL**로 막고 새로고침하면 재현할 수 있습니다(Offline으로 새로고침하면 페이지 자체가 열리지 않습니다).
 
 </details>
 
