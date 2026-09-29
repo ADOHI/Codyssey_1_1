@@ -1441,7 +1441,7 @@ const id = setTimeout(() => console.log('3초 뒤'), 3000);
 clearTimeout(id); // 예약 취소
 ```
 
-**이 프로젝트에서는** `setTimeout`을 직접 쓰는 곳은 `sleep` 한 곳뿐이고 — [js/utils.js#L10](../js/utils.js#L10), 나머지는 `await sleep(ms)`로 씁니다: 데모 에러·빈 상태 800ms [js/projects.js#L217](../js/projects.js#L217), [#L221](../js/projects.js#L221), 폼 데모 전송 800ms [js/contact.js#L118](../js/contact.js#L118), 타이핑 간격 [js/effects.js#L31-L33](../js/effects.js#L31-L33)
+**이 프로젝트에서는** `setTimeout`을 직접 쓰는 곳은 `sleep` 한 곳뿐이고 — [js/utils.js#L10](../js/utils.js#L10), 나머지는 `await sleep(ms)`로 씁니다: 데모 에러·빈 상태 800ms [js/projects.js#L217](../js/projects.js#L217), [#L221](../js/projects.js#L221), 폼 주소가 자리표시자일 때만 쓰는 데모 대체 경로 800ms [js/contact.js#L118](../js/contact.js#L118), 타이핑 간격 [js/effects.js#L31-L33](../js/effects.js#L31-L33)
 
 **자주 하는 실수**: 지연 시간이 정확하다고 믿기. "최소" 시간이며, 스택이 바쁘면 더 늦어집니다.
 
@@ -2047,7 +2047,7 @@ isSafeUrl(null);                    // false
 
 - **honeypot**: 사람 눈에는 안 보이는 입력칸을 두고, 봇이 이것까지 채우면 스팸으로 봅니다. `_gotcha`라는 이름을 Formspree가 인식합니다 — [index.html#L341-L345](../index.html#L341-L345), [css/style.css#L1199-L1201](../css/style.css#L1199-L1201). `tabindex="-1"`과 `aria-hidden`으로 키보드·스크린 리더 사용자도 건드리지 않게 했습니다.
 - **비밀 값은 프론트엔드에 넣지 않는다**: 정적 사이트의 코드는 누구나 볼 수 있습니다. GitHub 토큰을 넣으면 레이트 리밋은 늘겠지만 토큰이 공개됩니다. 그래서 인증 없는 호출(시간당 60회)을 택했습니다. Formspree의 폼 주소는 원래 공개되도록 설계된 값이라 HTML에 두어도 됩니다.
-- **현재 상태**: 폼 `action`은 아직 자리표시자 `https://formspree.io/f/YOUR_FORM_ID`입니다 — [index.html#L317](../index.html#L317). 이 글자가 들어 있으면 `isFormspreeReady`가 `false`가 되어 [js/contact.js#L27](../js/contact.js#L27) **데모 모드**로 동작합니다(800ms "전송 중..." 후 "데모 모드라 실제 메일은 전송되지 않았어요" 안내 — [js/contact.js#L76-L78](../js/contact.js#L76-L78), [#L116-L121](../js/contact.js#L116-L121)). 실제 전송 코드(`fetch` POST)는 이미 있으므로, Formspree에서 폼을 만들어 주소만 바꿔 넣으면 바로 동작합니다.
+- **현재 상태**: 폼 `action`에 실제 Formspree 주소 `https://formspree.io/f/xwlpaqwy`가 들어가 있습니다 — [index.html#L317](../index.html#L317). 그래서 `isFormspreeReady`가 `true`가 되고 [js/contact.js#L27](../js/contact.js#L27), 제출하면 `fetch` POST로 실제 메일이 전송됩니다 — [js/contact.js#L123-L130](../js/contact.js#L123-L130). 성공하면 "메시지가 전송되었습니다. 확인 후 답장드릴게요. 감사합니다!", 실패하거나 10초 안에 응답이 없으면 "전송에 실패했습니다. 잠시 후 다시 시도하거나 이메일로 직접 연락해 주세요."를 보여 줍니다 — [js/contact.js#L76-L79](../js/contact.js#L76-L79). 2026-09-29 배포 사이트에서 테스트 메시지를 한 번 보내 Formspree 응답 성공, 성공 문구 표시, 폼 초기화까지 확인했습니다. 새로 만든 폼은 첫 제출 때 Formspree가 보내는 확인 메일을 소유자가 승인해야 할 수 있습니다. 주소에 `YOUR_FORM_ID`가 다시 들어가면 실제 전송 없이 800ms 뒤 "데모 모드라 실제 메일은 전송되지 않았어요" 안내만 보여 주는 대체 경로가 코드에 남아 있습니다 — [js/contact.js#L78](../js/contact.js#L78), [#L116-L121](../js/contact.js#L116-L121).
 
 ---
 

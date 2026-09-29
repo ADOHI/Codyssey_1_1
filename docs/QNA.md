@@ -1637,13 +1637,15 @@ flowchart TD
 
 ### Q98. Formspree 폼 ID가 없으면 폼은 어떻게 되나요?
 
-**한 줄 답변:** 지금은 **데모 모드**입니다. 검증은 똑같이 하고, 0.8초 동안 "전송 중..."을 보여 준 뒤 "데모 모드라 실제 메일은 전송되지 않았어요"라고 **정직하게** 안내합니다.
+**한 줄 답변:** 지금은 실제 폼 주소(`https://formspree.io/f/xwlpaqwy`)가 설정되어 있어 메시지가 **실제로 전송**됩니다. 주소가 자리 표시자(`YOUR_FORM_ID`)로 돌아가면 실제 전송 없이 데모 흐름으로 동작하도록 대비책을 만들어 두었습니다.
 
 **자세한 답변:**
-- `form`의 `action`이 아직 `https://formspree.io/f/YOUR_FORM_ID`(자리 표시자)이고, `contact.js`는 주소에 `YOUR_FORM_ID`가 들어 있는지로 데모 모드를 판단합니다.
-- 실제 전송 코드는 이미 구현되어 있습니다: `fetch` POST, `FormData`, `Accept: application/json`, 10초 제한. **`action` 주소만 바꾸면 바로 동작합니다.**
+- `contact.js`는 `form`의 `action` 주소에 `YOUR_FORM_ID`가 들어 있는지로 `isFormspreeReady`를 정합니다. 지금은 실제 주소라 `true`입니다.
+- 실제 전송: `fetch` POST, `FormData`, `Accept: application/json`, 10초 제한. 성공하면 "메시지가 전송되었습니다. 확인 후 답장드릴게요. 감사합니다!"를 보여 주고 폼을 비우며, Formspree가 오류로 응답하거나 10초 안에 응답이 없으면 "전송에 실패했습니다. 잠시 후 다시 시도하거나 이메일로 직접 연락해 주세요."를 보여 줍니다.
+- 2026-09-29 배포된 사이트에서 테스트 메시지를 한 번 보내 Formspree 응답 성공 → 성공 메시지 → 폼 초기화까지 확인했습니다. (새 폼의 첫 제출은 Formspree가 보내는 확인 메일을 승인해야 할 수 있습니다.)
+- 대비책(데모 흐름): 주소가 자리 표시자면 검증은 똑같이 하고, 0.8초 동안 "전송 중..."을 보여 준 뒤 "데모 모드라 실제 메일은 전송되지 않았어요"라고 **정직하게** 안내합니다. 지금 설정에서는 이 경로를 타지 않습니다.
 - 설정 방법: formspree.io 가입 → New Form → 폼 주소 복사 → `index.html`의 `action` 교체 → commit/push → 첫 제출 때 Formspree가 보내는 확인 메일 승인.
-- JS가 꺼진 환경에서는 브라우저가 `action` 주소로 직접 제출하는데, 지금은 자리 표시자라 실제로 전송되지 않습니다.
+- JS가 꺼진 환경에서는 브라우저가 `action` 주소로 직접 제출하므로, 이때도 Formspree로 전송됩니다.
 
 **코드 근거:** [index.html#L317](../index.html#L317), [js/contact.js#L26-L27](../js/contact.js#L26-L27) `isFormspreeReady`, [js/contact.js#L73-L80](../js/contact.js#L73-L80) `STATUS_MESSAGES`, [js/contact.js#L115-L131](../js/contact.js#L115-L131) `sendMessage`
 
@@ -1690,7 +1692,6 @@ flowchart TD
 - **테마:** "시스템 설정 따르기" 선택지 추가, CSS `prefers-color-scheme`으로 첫 화면 깜빡임 가능성 제거. ([Q75](#q75-새로고침할-때-테마가-깜빡이지-않나요-defer와의-트레이드오프))
 - **저장소 100개 초과 대비:** 지금은 `per_page=100`으로 한 페이지만 요청합니다.
 - **테스트:** `validators`, `escapeHTML`, `isSafeUrl` 같은 순수 함수에 간단한 자동 테스트.
-- **Formspree 실제 연결.**
 
 **코드 근거:** [js/projects.js#L17](../js/projects.js#L17) `per_page=100`, [js/projects.js#L195](../js/projects.js#L195) 전체 다시 그리기
 

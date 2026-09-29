@@ -146,7 +146,7 @@ flowchart LR
 | 언어별 필터 (보너스) | 저장소 언어로 버튼을 자동 생성하고 `array.filter`로 걸러서 표시 | [js/projects.js](js/projects.js#L149) |
 | 더 보기 | 처음 6개만 보여 주고 버튼을 누를 때마다 6개씩 추가 | [js/projects.js](js/projects.js#L286) |
 | 폼 유효성 검사 | 필수값 · 최소 길이 · 이메일 형식 검사, 에러는 각 입력칸 바로 아래에 표시 | [js/contact.js](js/contact.js#L32) |
-| 폼 전송 (보너스) | Formspree로 `fetch` POST 전송 코드 구현. **현재는 폼 ID 미설정으로 데모 모드** | [js/contact.js](js/contact.js#L115) |
+| 폼 전송 (보너스) | Formspree로 `fetch` POST 전송. 제출한 메시지가 실제 메일로 전달됩니다 (배포 사이트에서 전송 확인) | [js/contact.js](js/contact.js#L115) |
 | 상태별 UI 데모 | 주소 뒤에 `?demo=loading · error · empty`를 붙이면 해당 상태를 강제로 재현 | [js/projects.js](js/projects.js#L213) |
 
 ---
@@ -160,7 +160,7 @@ flowchart LR
 | 스크립트 | **Vanilla JavaScript (ES6+)** | 화살표 함수, 템플릿 리터럴, 구조분해 할당, 전개 연산자, `map` · `filter` · `forEach` · `reduce`, `async/await`, `?.` · `??` |
 | 브라우저 API | Fetch API, `AbortSignal.timeout`, IntersectionObserver, `localStorage`, `matchMedia`, History API(`pushState`), `FormData`, View Transitions API(지원 브라우저에서만) | 데이터 요청, 스크롤 감지, 테마 저장 등 |
 | 외부 API | **GitHub REST API** | `GET https://api.github.com/users/ADOHI/repos?sort=updated&per_page=100` (인증 없이 호출) |
-| 폼 전송 | **Formspree** | 문의 폼 실제 메일 전송용 (현재 데모 모드, [15장](#15-formspree-실제-전송-설정-방법) 참고) |
+| 폼 전송 | **Formspree** | 문의 폼 실제 메일 전송용 (연동 완료, [15장](#15-formspree-실제-전송-설정-방법) 참고) |
 | 웹 폰트 | **Google Fonts** | Noto Sans KR(본문), JetBrains Mono(로고 · 코드 느낌 텍스트) |
 | 아이콘 | **인라인 SVG 아이콘** | [Feather Icons](https://feathericons.com/) (MIT), [Lucide](https://lucide.dev/) (ISC) 모양을 SVG `<symbol>` 스프라이트로 넣고 `<use>`로 재사용 ([index.html#L46-L93](index.html#L46-L93)) |
 | 배포 | **GitHub Pages** | `main` 브랜치의 루트 폴더를 그대로 배포 |
@@ -277,7 +277,7 @@ python -m http.server 5500
 | `MESSAGE_MAX_LENGTH` | `1000` | 글자 수 카운터의 최대값 표시 (`0 / 1000`). 실제 입력 제한은 HTML `maxlength="1000"` | [js/contact.js#L21](js/contact.js#L21), [index.html#L334](index.html#L334) |
 | `EMAIL_PATTERN` | 정규식 | `아이디@도메인.최상위도메인(2자 이상)` 형식 검사 | [js/contact.js#L23](js/contact.js#L23) |
 | 입력 최대 길이 | 이름 `50`, 이메일 `100` | HTML `maxlength` | [index.html#L322](index.html#L322), [#L328](index.html#L328) |
-| 데모 전송 지연 | `800` (ms) | 데모 모드에서 "전송 중..."을 보여 주는 시간 | [js/contact.js#L118](js/contact.js#L118) |
+| 데모 전송 지연 | `800` (ms) | 대비용 데모 경로(`action`에 `YOUR_FORM_ID`가 다시 들어간 경우)에서 "전송 중..."을 보여 주는 시간. 현재는 실제 전송이라 쓰이지 않음 | [js/contact.js#L118](js/contact.js#L118) |
 | 태블릿 브레이크포인트 | `768px` | `@media (min-width: 768px)` + JS의 메뉴 초기화 기준 | [css/style.css#L1323](css/style.css#L1323), [js/layout.js#L49](js/layout.js#L49) |
 | 데스크톱 브레이크포인트 | `1024px` | `@media (min-width: 1024px)` | [css/style.css#L1413](css/style.css#L1413) |
 | `--header-height` | `64px` | 헤더 높이이자 앵커 이동 시 `scroll-padding-top` | [css/style.css#L84](css/style.css#L84), [#L134](css/style.css#L134) |
@@ -406,7 +406,7 @@ python -m http.server 5500
 | 상태 | 요구사항 | 구현 방법 | 코드 위치 | 확인 방법 |
 |:---:|---|---|---|---|
 | ✅ | 10-1. GitHub Pages 배포 | `main` 브랜치 루트 폴더 배포, `.nojekyll` 포함 | [.nojekyll](.nojekyll) | <https://adohi.github.io/Codyssey_1_1/> 접속 |
-| ✅ | 10-2. 배포 URL에서 모든 기능 동작 | 상대 경로만 사용(`css/style.css`, `images/...`)해 하위 경로(`/Codyssey_1_1/`)에서도 동작. Formspree 실제 전송만 데모 모드(의도한 결정) | [index.html#L25](index.html#L25) | [11. 5분 체크 가이드](#11-동료평가-5분-체크-가이드) |
+| ✅ | 10-2. 배포 URL에서 모든 기능 동작 | 상대 경로만 사용(`css/style.css`, `images/...`)해 하위 경로(`/Codyssey_1_1/`)에서도 동작. Formspree 실제 전송도 배포 사이트에서 확인 | [index.html#L25](index.html#L25) | [11. 5분 체크 가이드](#11-동료평가-5분-체크-가이드) |
 | ✅ | 10-3. README에 프로젝트 설명, 사용 기술, 배포 URL, 스크린샷 | 이 문서 | [1장](#1-프로젝트-소개), [4장](#4-사용-기술), [맨 위](#adohi-portfolio), [2장](#2-스크린샷) | 이 문서 |
 
 ### 보너스 과제
@@ -415,7 +415,7 @@ python -m http.server 5500
 |:---:|---|---|---|---|
 | ✅ | B-1. 언어별 필터링 버튼 (`array.filter`) | 받은 저장소의 언어별 개수를 `reduce`로 세어 버튼 자동 생성(많은 순), 클릭 시 `filter` 상태 변경 → `repos.filter(...)` | [js/projects.js#L149-L169](js/projects.js#L149-L169), [#L66-L69](js/projects.js#L66-L69), [#L271-L275](js/projects.js#L271-L275) | 필터 버튼 클릭 ([스크린샷](#상태별-ui-github-api)) |
 | ✅ | B-2. Hero 타이핑 효과 | 4개 문구를 쓰고 지우기 반복. 스크린 리더에는 전체 문구를 한 번에 제공(`sr-only`), 타이핑 영역은 `aria-hidden` | [js/effects.js#L30-L64](js/effects.js#L30-L64), [index.html#L132-L133](index.html#L132-L133) | 첫 화면 문구 관찰 |
-| ✅ (코드 구현 완료 · **현재 데모 모드**) | B-3. Formspree 실제 이메일 전송 | `fetch` POST(FormData, `Accept: application/json`, 10초 타임아웃) 구현 완료. 데모 모드로 제출하기로 결정해 `action`이 `YOUR_FORM_ID` 자리표시자 → 800ms "전송 중..." 후 "데모 모드라 실제 메일은 전송되지 않았어요" 안내. `action`만 바꾸면 실제 전송 | [index.html#L317](index.html#L317), [js/contact.js#L27](js/contact.js#L27), [#L115-L131](js/contact.js#L115-L131) | 폼 제출 후 안내 문구. 설정 방법은 [15장](#15-formspree-실제-전송-설정-방법) |
+| ✅ 완료 | B-3. Formspree 실제 이메일 전송 | form `action`에 실제 Formspree 주소를 넣고, `fetch` POST(FormData, `Accept: application/json`, 10초 타임아웃)로 전송. 성공 시 "메시지가 전송되었습니다. 확인 후 답장드릴게요. 감사합니다!", 실패 · 시간 초과 시 "전송에 실패했습니다. …" 안내. 2026-09-29 배포 사이트에서 테스트 메시지 전송 확인 | [index.html#L317](index.html#L317), [js/contact.js#L27](js/contact.js#L27), [#L115-L131](js/contact.js#L115-L131) | 폼 제출 후 안내 문구. 설정 내용은 [15장](#15-formspree-실제-전송-설정-방법) |
 | ✅ | B-4. `prefers-color-scheme` 시스템 다크 모드 감지 | 저장값이 없으면 OS 설정을 따르고, OS 설정이 바뀌면 실시간 반영(직접 고른 적이 없을 때만) | [js/theme.js#L16](js/theme.js#L16), [#L36-L39](js/theme.js#L36-L39), [#L68-L70](js/theme.js#L68-L70) | Local Storage의 `theme` 삭제 → DevTools Rendering → `prefers-color-scheme: dark` 에뮬레이션 |
 
 ### 제약 사항
@@ -873,7 +873,7 @@ GitHub API는 보통 금방 성공하기 때문에 로딩 · 에러 · 빈 상�
 9. **GitHub 프로젝트 · 필터 · 더 보기** — Projects에 저장소 카드가 보이고 "N개 중 6개 표시"가 나옵니다. 언어 버튼(예: C#)을 누르면 해당 언어만 남고 개수가 바뀝니다. "더 보기"를 누를 때마다 6개씩 늘어나고, 다 보이면 버튼이 사라집니다. Network 탭에서 `api.github.com/users/ADOHI/repos` 요청을 볼 수 있습니다.
 10. **상태별 UI** — [`?demo=loading`](https://adohi.github.io/Codyssey_1_1/?demo=loading#projects) · [`?demo=error`](https://adohi.github.io/Codyssey_1_1/?demo=error#projects) · [`?demo=empty`](https://adohi.github.io/Codyssey_1_1/?demo=empty#projects)를 열어 스피너 / "프로젝트를 불러올 수 없습니다." + 다시 시도 / "표시할 프로젝트가 없습니다."를 확인합니다.
 11. **폼 에러** — Contact에서 아무것도 입력하지 않고 "메시지 보내기" → 세 칸 모두 빨간 테두리와 에러 문구, 커서가 이름 칸으로 이동, 페이지는 새로고침되지 않음(`preventDefault`). 이메일에 `abc@`를 입력하고 다른 칸을 누르면 "올바른 이메일 형식이 아닙니다. (예: name@example.com)". 이름 1글자 → "이름은 2자 이상…", 메시지 9글자 → "메시지는 10자 이상…". 고치는 즉시 에러가 사라지고 글자 수 카운터(`0 / 1000`)가 바뀝니다.
-12. **폼 성공** — 올바르게 입력하고 제출 → 버튼이 "전송 중..."으로 잠시 바뀜 → "메시지가 접수되었습니다! (데모 모드라 실제 메일은 전송되지 않았어요. …)" 성공 메시지와 함께 폼이 비워집니다. (현재 데모 모드 — [15장](#15-formspree-실제-전송-설정-방법))
+12. **폼 성공** — 올바르게 입력하고 제출 → 버튼이 "전송 중..."으로 잠시 바뀜 → "메시지가 전송되었습니다. 확인 후 답장드릴게요. 감사합니다!" 성공 메시지와 함께 폼이 비워집니다. 메시지는 실제로 Formspree를 거쳐 사이트 주인에게 메일로 전달되므로, 테스트할 때는 짧은 테스트 문구로 한 번만 보내 주세요. ([15장](#15-formspree-실제-전송-설정-방법))
 13. **키보드** — 페이지 맨 위에서 `Tab`을 누르면 "본문으로 건너뛰기" 링크가 나타납니다. 모든 버튼 · 링크를 `Tab`으로 이동할 수 있고 포커스 테두리가 보입니다.
 14. **코드 제약** — 저장소를 clone 했다면 아래 세 명령 모두 **아무것도 출력하지 않아야** 합니다.
     ```bash
@@ -916,7 +916,7 @@ GitHub API는 보통 금방 성공하기 때문에 로딩 · 에러 · 빈 상�
 | **`javascript:` 링크** — 저장소 홈페이지(`homepage`) 값은 저장소 주인이 아무 문자열이나 넣을 수 있음 | [`isSafeUrl`](js/projects.js#L61)로 `http://` · `https://`로 시작할 때만 "Demo" 링크를 만듭니다 | [js/projects.js#L118](js/projects.js#L118) |
 | **탭 내빙(tabnabbing)** — `target="_blank"`로 연 페이지가 `window.opener`로 원래 페이지를 조작 | 새 창 링크에 모두 `rel="noopener noreferrer"` | [index.html#L304](index.html#L304), [#L361](index.html#L361), [js/projects.js#L88](js/projects.js#L88), [#L114](js/projects.js#L114), [#L119](js/projects.js#L119) |
 | **스팸 봇** | 사람에게 보이지 않는 honeypot 필드 `_gotcha`(Formspree 규칙: 값이 채워진 제출은 무시). `tabindex="-1"`, `aria-hidden`으로 키보드 · 스크린 리더 사용자도 건너뜀 | [index.html#L341-L345](index.html#L341-L345), [css/style.css#L1199-L1201](css/style.css#L1199-L1201) |
-| **비밀 값 노출** | GitHub API는 인증 없이 호출하므로 토큰이 코드에 없습니다(정적 사이트의 JS는 누구나 볼 수 있으므로 토큰을 넣으면 안 됨). Formspree 폼 ID는 공개되어도 되는 값입니다 | [js/projects.js#L225-L228](js/projects.js#L225-L228) |
+| **비밀 값 노출** | GitHub API는 인증 없이 호출하므로 토큰이 코드에 없습니다(정적 사이트의 JS는 누구나 볼 수 있으므로 토큰을 넣으면 안 됨). form `action`의 Formspree 주소(`https://formspree.io/f/xwlpaqwy`)는 페이지 소스에서 누구나 볼 수 있는 공개 값이며 비밀이 아닙니다. 이 주소로 오는 스팸은 honeypot `_gotcha`와 Formspree 자체 필터링으로 거릅니다 | [js/projects.js#L225-L228](js/projects.js#L225-L228), [index.html#L317](index.html#L317) |
 
 ---
 
@@ -1016,17 +1016,16 @@ GitHub API는 보통 금방 성공하기 때문에 로딩 · 에러 · 빈 상�
 
 ## 15. Formspree 실제 전송 설정 방법
 
-### 현재 상태: **데모 모드**
+### 현재 상태: **연동 완료**
 
-문의 폼의 `action`이 아직 자리표시자 `https://formspree.io/f/YOUR_FORM_ID`입니다([index.html#L317](index.html#L317)). 이번 제출 버전은 외부 서비스 계정 없이 **데모 모드로 제출하기로 결정**했기 때문입니다. 이때 [`isFormspreeReady`](js/contact.js#L27)가 `false`가 되어:
+문의 폼의 `action`이 실제 Formspree 주소 `https://formspree.io/f/xwlpaqwy`입니다([index.html#L317](index.html#L317)). 그래서 [`isFormspreeReady`](js/contact.js#L27)가 `true`가 되어, 제출하면 아래 코드로 **실제 전송**합니다.
 
-- 제출하면 **800ms 동안 "전송 중..."** 을 보여 준 뒤,
-- "메시지가 접수되었습니다! (**데모 모드라 실제 메일은 전송되지 않았어요.** 급한 연락은 이메일로 부탁드립니다.)"라고 **사실대로** 안내합니다([js/contact.js#L76-L78](js/contact.js#L76-L78), [#L116-L121](js/contact.js#L116-L121)).
-
-실제 전송 코드는 이미 구현되어 있어서, **`action` 주소만 바꾸면** 바로 동작합니다.
+- 성공하면 "메시지가 전송되었습니다. 확인 후 답장드릴게요. 감사합니다!"를 보여 주고 폼을 비웁니다([js/contact.js#L76-L77](js/contact.js#L76-L77)).
+- Formspree가 오류로 응답하거나(`response.ok`가 아님) 10초(`SEND_TIMEOUT`) 안에 응답이 없으면 "전송에 실패했습니다. 잠시 후 다시 시도하거나 이메일로 직접 연락해 주세요."를 보여 줍니다([js/contact.js#L79](js/contact.js#L79)).
+- **확인 결과**: 2026-09-29 배포 사이트(<https://adohi.github.io/Codyssey_1_1/>)에서 테스트 메시지 1건을 보냈고, Formspree가 정상 응답해 성공 메시지가 표시되고 폼이 초기화되는 것을 확인했습니다.
 
 ```js
-// js/contact.js#L123-L130 — 폼 ID가 설정되면 실행되는 실제 전송 경로
+// js/contact.js#L123-L130 — 실제 전송 경로
 const response = await fetch(contactForm.action, {
   method: 'POST',
   body: formData,
@@ -1036,17 +1035,21 @@ const response = await fetch(contactForm.action, {
 if (!response.ok) throw new Error(`Formspree 응답 오류 (HTTP ${response.status})`);
 ```
 
+> **대비용 데모 경로**: `action`에 자리표시자 `YOUR_FORM_ID`가 다시 들어가면 `isFormspreeReady`가 `false`가 되어, 실제 전송 없이 800ms "전송 중..." 뒤 "메시지가 접수되었습니다! (데모 모드라 실제 메일은 전송되지 않았어요. …)"라고 안내하는 경로가 코드에 남아 있습니다([js/contact.js#L76-L78](js/contact.js#L76-L78), [#L116-L121](js/contact.js#L116-L121)). 현재 배포 버전에서는 쓰이지 않습니다.
+
 ### 설정 순서
+
+처음 연동할 때 아래 순서로 설정했습니다. 받는 메일이나 Formspree 폼을 바꿀 때도 같은 순서로 `action` 주소만 바꾸면 됩니다.
 
 1. <https://formspree.io>에 가입합니다.
 2. 대시보드에서 **New Form**을 만들고, 메시지를 받을 이메일을 지정합니다.
 3. 생성된 **폼 엔드포인트**(`https://formspree.io/f/xxxxxxxx` 형태)를 복사합니다.
-4. `index.html`의 [form `action`](index.html#L317)에서 `https://formspree.io/f/YOUR_FORM_ID`를 복사한 주소로 바꿉니다. (Formspree 주소는 이 한 곳에서만 관리합니다. JS는 `contactForm.action`을 읽습니다.)
+4. `index.html`의 [form `action`](index.html#L317) 값을 복사한 주소로 바꿉니다. (처음에는 자리표시자 `https://formspree.io/f/YOUR_FORM_ID`였고, 지금은 `https://formspree.io/f/xwlpaqwy`입니다. Formspree 주소는 이 한 곳에서만 관리합니다. JS는 `contactForm.action`을 읽습니다.)
 5. 커밋하고 `main` 브랜치에 push합니다 → GitHub Pages가 자동으로 다시 배포합니다.
-6. 배포된 사이트에서 **처음 한 번 제출**하면 Formspree가 확인 메일을 보냅니다. 메일에서 **이메일 인증(confirm)** 을 해야 이후 메시지가 전달됩니다.
-7. 이후에는 성공 문구가 "메시지가 전송되었습니다. 확인 후 답장드릴게요. 감사합니다!"로 바뀝니다([js/contact.js#L76-L77](js/contact.js#L76-L77)).
+6. 배포된 사이트에서 **처음 한 번 제출**합니다. 새로 만든 폼은 첫 제출 때 Formspree가 확인 메일을 보낼 수 있는데, 이때 메일에서 **이메일 인증(confirm)** 을 해야 이후 메시지가 전달됩니다.
+7. 성공 문구 "메시지가 전송되었습니다. 확인 후 답장드릴게요. 감사합니다!"가 보이고 폼이 비워지면 연동이 끝난 것입니다([js/contact.js#L76-L77](js/contact.js#L76-L77)).
 
-> JavaScript가 꺼진 환경에서는 폼이 `action` 주소로 일반 전송(`method="POST"`)됩니다. honeypot 필드 `_gotcha`는 Formspree가 스팸 판별에 사용합니다.
+> Formspree 주소는 페이지 소스에서 누구나 볼 수 있는 공개 값이라 비밀로 관리할 필요가 없습니다. 스팸은 honeypot 필드 `_gotcha`와 Formspree 자체 필터링으로 거릅니다. JavaScript가 꺼진 환경에서는 폼이 `action` 주소로 일반 전송(`method="POST"`)됩니다.
 
 ---
 
@@ -1059,8 +1062,8 @@ if (!response.ok) throw new Error(`Formspree 응답 오류 (HTTP ${response.stat
 | **최대 100개 저장소** | `per_page=100` 한 번만 요청하고 다음 페이지는 요청하지 않음 (현재 저장소 수로는 충분) | `Link` 헤더를 따라가는 페이지네이션 |
 | **테마 깜빡임 가능성** | 과제 요구로 모든 스크립트가 `defer`이고 CSS 기본값이 라이트라서, 최종 테마가 다크인 방문자(저장값이 다크이거나 OS가 다크)는 이론상 `theme.js` 실행 전 잠깐 라이트 화면을 볼 수 있음 (측정해 보니 일반적인 로드에서는 첫 화면이 그려지기 전에 테마가 적용됨) | CSS에 `prefers-color-scheme` 대체 규칙 추가, 또는 `<head>`에 테마만 먼저 적용하는 아주 작은 스크립트 추가 (다만 과제의 `defer` 규칙과 절충 필요) |
 | **`localStorage` 키 공유** | GitHub Pages 프로젝트 사이트는 모두 같은 출처(`https://adohi.github.io`)라, 같은 출처의 다른 페이지가 `theme` 키를 쓰면 설정이 서로 영향을 줄 수 있음 | 키 이름에 프로젝트 접두사 붙이기 (예: `codyssey-portfolio-theme`) |
-| **Formspree 미설정** | 폼 ID가 없어 현재 데모 모드 | [15장](#15-formspree-실제-전송-설정-방법) 절차로 폼 ID 설정 |
-| **최소한의 noscript 대체** | JS가 없으면 프로젝트 카드 대신 GitHub 링크만 보이고, 테마 전환 · 필터를 쓸 수 없음. 폼은 `action` 주소로 일반 전송되지만 지금은 자리표시자라 실제로 전달되지 않음 | 폼 ID 설정 후 no-JS 전송 확인 |
+| **Formspree 무료 플랜 한도** | 무료 플랜은 한 달에 받을 수 있는 제출 수에 한도가 있어, 넘으면 그달에는 메시지가 전달되지 않을 수 있음 | 문의가 많아지면 유료 플랜 전환, 또는 EmailJS · 서버리스 함수 등 다른 전송 방식 검토 |
+| **최소한의 noscript 대체** | JS가 없으면 프로젝트 카드 대신 GitHub 링크만 보이고, 테마 전환 · 필터를 쓸 수 없음. 폼은 `action` 주소(Formspree)로 일반 전송되지만, 배포 사이트 전송 확인은 JS가 켜진 상태에서만 했음 | JS를 끈 상태에서도 전송되는지 확인 |
 | **언어 색상 목록** | 언어 점 색은 14개 언어만 지정되어 있고, 나머지는 회색 | 필요한 언어 색 추가 |
 | **타이핑 효과 반복** | 타이핑 루프는 화면 밖에 있어도 계속 돎 (동작 줄이기 설정 시에만 멈춤) | IntersectionObserver로 Hero가 보일 때만 실행 |
 | **자동화 테스트 코드 없음** | 리뷰 단계에서 브라우저 테스트를 했지만, 저장소에 테스트 코드는 포함되어 있지 않음 | 검증 로직(`validateForm`, `escapeHTML`, `isSafeUrl`)부터 간단한 테스트 추가 |
