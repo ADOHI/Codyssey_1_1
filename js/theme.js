@@ -29,7 +29,7 @@ const saveTheme = (theme) => {
   try {
     localStorage.setItem(THEME_STORAGE_KEY, theme);
   } catch {
-    // 저장할 수 없는 환경이면 이번 방문 동안만 적용된다
+    themeToggle.title = '이 브라우저에서는 테마 설정을 저장할 수 없어 이번 방문에만 적용됩니다.'; // 저장 불가(시크릿·저장소 차단) 안내
   }
 };
 

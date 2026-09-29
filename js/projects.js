@@ -205,8 +205,8 @@ const renderProjects = () => {
 
 // 응답을 받지 못한 경우(네트워크 끊김, 시간 초과)의 에러를 사람이 읽기 쉬운 문장으로 바꾼다
 const toErrorMessage = (error) => {
-  if (error.name === 'TimeoutError') return '서버 응답이 너무 늦습니다. 네트워크 상태를 확인한 뒤 다시 시도해 주세요.';
-  if (error instanceof TypeError) return '네트워크에 연결할 수 없습니다. 인터넷 연결을 확인해 주세요.';
+  if (error.name === 'TimeoutError') return `서버가 ${REQUEST_TIMEOUT / 1000}초 안에 응답하지 않았습니다. 네트워크가 느리거나 GitHub가 혼잡할 수 있으니 잠시 후 '다시 시도'를 눌러 주세요.`;
+  if (error instanceof TypeError) return "네트워크에 연결할 수 없습니다. Wi-Fi나 데이터 연결을 확인한 뒤 '다시 시도'를 눌러 주세요.";
   return error.message;
 };
 
@@ -235,16 +235,16 @@ const fetchRepos = async () => {
       if (isRateLimited) {
         const resetSeconds = Number(response.headers.get('x-ratelimit-reset'));
         const resetTime = new Date(resetSeconds * 1000).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
-        throw new Error(`GitHub API 요청 한도(시간당 60회)를 초과했습니다. ${resetTime} 이후에 다시 시도해 주세요.`);
+        throw new Error(`GitHub API 요청 한도(시간당 60회)를 초과했습니다. ${resetTime} 이후에 다시 시도해 주세요. 그동안은 'GitHub에서 보기'로 저장소를 볼 수 있습니다.`);
       }
-      throw new Error(`GitHub API 요청이 거부되었습니다. (HTTP ${response.status}) 잠시 후 다시 시도해 주세요.`);
+      throw new Error(`GitHub API 요청이 거부되었습니다. (HTTP ${response.status}) 잠시 후 '다시 시도'를 누르거나 'GitHub에서 보기'를 이용해 주세요.`);
     }
-    if (response.status === 404) throw new Error(`GitHub 사용자 '${GITHUB_USERNAME}'를 찾을 수 없습니다.`);
-    throw new Error(`GitHub 서버에서 오류가 발생했습니다. (HTTP ${response.status})`);
+    if (response.status === 404) throw new Error(`GitHub 사용자 '${GITHUB_USERNAME}'를 찾을 수 없습니다. 'GitHub에서 보기'로 직접 확인해 주세요.`);
+    throw new Error(`GitHub 서버에서 오류가 발생했습니다. (HTTP ${response.status}) 잠시 후 '다시 시도'를 눌러 주세요.`);
   }
 
   const data = await response.json();
-  if (!Array.isArray(data)) throw new Error('GitHub에서 예상하지 못한 형식의 응답을 받았습니다.');
+  if (!Array.isArray(data)) throw new Error("GitHub에서 예상하지 못한 형식의 응답을 받았습니다. 잠시 후 '다시 시도'를 눌러 주세요.");
   return data;
 };
 

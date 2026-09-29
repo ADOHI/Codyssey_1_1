@@ -30,6 +30,7 @@
 | 평가 직전에는 새로고침을 남발하지 않는다 | GitHub API는 로그인 없이 **IP당 시간당 60회**. 넘으면 에러 화면이 뜬다(이것도 과제 요구대로 처리된 모습이긴 하다) |
 | 평가 5분 전 <https://api.github.com/rate_limit> 를 열어 `resources.core.remaining` 확인(이 주소는 횟수를 쓰지 않음). 10 이하이면 휴대폰 핫스팟으로 전환 | 캠퍼스 와이파이는 여러 명이 같은 공인 IP를 써서 60회를 같이 소진한다 |
 | 아래 데모 링크 3개를 즐겨찾기해 둔다 | 로딩/에러/빈 상태를 바로 보여 주기 |
+| 저장소의 **verify** 배지가 초록(passing)인지 확인하고, 필요하면 `node scripts/verify.mjs`를 한 번 실행해 둔다 | "반응형 · 상태 흐름 · 접근성 74개를 push마다 자동 검사한다"를 [Actions 기록](https://github.com/ADOHI/Codyssey_1_1/actions/workflows/verify.yml)과 [보고서](VERIFY_REPORT.md)로 보여 주기. 네트워크는 가짜 응답이라 API 횟수 · 실제 메일을 쓰지 않는다 ([README 19장](../README.md#19-자동-검증-ci)) |
 
 - 로딩: <https://adohi.github.io/Codyssey_1_1/?demo=loading#projects>
 - 에러: <https://adohi.github.io/Codyssey_1_1/?demo=error#projects>
@@ -69,7 +70,7 @@
 
 코드: [js/theme.js#L56](../js/theme.js#L56) 클릭 이벤트, [js/theme.js#L28](../js/theme.js#L28) `saveTheme`, [js/theme.js#L39](../js/theme.js#L39) 시작할 때 `readSavedTheme()`
 
-> 시크릿(Incognito) 창에서도 새로고침 후 유지는 됩니다. 다만 시크릿 창을 닫으면 저장값이 사라지는 것은 브라우저 동작입니다.
+> 시크릿(Incognito) 창에서도 새로고침 후 유지는 됩니다. 다만 시크릿 창을 닫으면 저장값이 사라지는 것은 브라우저 동작입니다. 사이트 데이터 저장 자체를 막은 브라우저에서는 테마는 바뀌지만 저장되지 않고, 토글 버튼에 마우스를 올리면 "이번 방문에만 적용됩니다" 안내가 보입니다([js/theme.js#L32](../js/theme.js#L32)).
 
 ### 1-3. 햄버거 메뉴, 스크롤 애니메이션, 맨 위로 가기 버튼이 정상 동작하는가?
 
@@ -94,9 +95,10 @@
 2. **로딩**: `?demo=loading` 링크 → 스피너 + "프로젝트를 불러오는 중..."
 3. **에러**: `?demo=error` 링크 → "프로젝트를 불러올 수 없습니다." + **다시 시도** 버튼. 누르면 다시 로딩 → 에러.
 4. **빈 상태**: `?demo=empty` 링크 → "표시할 프로젝트가 없습니다."
-5. (진짜 에러 → 재시도 → 진짜 로딩 → 성공) `F12` → **Network** → `repos?sort=updated…` 요청 우클릭 → **Block request domain**(요청 도메인 차단) → `F5` → 실제 `TypeError` 경로로 "네트워크에 연결할 수 없습니다. 인터넷 연결을 확인해 주세요." + **다시 시도**. 이어서 차단 목록 패널(Network request blocking)에서 체크 해제 → 스로틀링을 느린 값(`3G` 등)으로 → **다시 시도** 클릭 → 실제 요청 동안 스피너 → 카드 표시 → 스로틀링을 `No throttling`으로 원복.
+5. (진짜 에러 → 재시도 → 진짜 로딩 → 성공) `F12` → **Network** → `repos?sort=updated…` 요청 우클릭 → **Block request domain**(요청 도메인 차단) → `F5` → 실제 `TypeError` 경로로 "네트워크에 연결할 수 없습니다. Wi-Fi나 데이터 연결을 확인한 뒤 '다시 시도'를 눌러 주세요." + **다시 시도**. 이어서 차단 목록 패널(Network request blocking)에서 체크 해제 → 스로틀링을 느린 값(`3G` 등)으로 → **다시 시도** 클릭 → 실제 요청 동안 스피너 → 카드 표시 → 스로틀링을 `No throttling`으로 원복.
    - **Offline + 새로고침은 쓰지 않는다.** 페이지 자체가 안 열린다(공룡 화면).
-   - 너무 느려 10초를 넘기면 "서버 응답이 너무 늦습니다..." 타임아웃 에러가 뜬다. 이것도 실제 분기다.
+   - 너무 느려 10초를 넘기면 "서버가 10초 안에 응답하지 않았습니다. …" 타임아웃 에러가 뜬다. 이것도 실제 분기다.
+   - 네트워크 끊김 · 레이트 리밋 화면을 바로 보여 줘야 하면 README의 [실제 에러 경로 스크린샷](../README.md#상태별-ui-github-api)을 연다.
 
 > "상태를 `loading`, `success`, `error`로 두고, 성공했는데 결과가 0개면 빈 상태로 그립니다. 데모 링크는 평가 때 각 상태를 바로 보여 드리려고 만든 것이고, 실제 에러는 DevTools에서 api.github.com 요청만 막으면 `fetch`가 `TypeError`로 실패하는 진짜 경로로 보여 드릴 수 있습니다. 차단을 풀고 다시 시도를 누르면 로딩을 거쳐 카드가 나옵니다."
 
@@ -174,6 +176,7 @@
 
 - `:root`에 토큰 45개(색·그림자·폰트·크기·간격·모서리·전환 시간) 정의 → [css/style.css#L33](../css/style.css#L33)
 - 다크 모드에서 바꾸는 것은 18개(색 + 그림자) → [css/style.css#L94](../css/style.css#L94)
+- 새 토큰을 추가할 때의 이름 규칙(`--color-{역할}`, `--space-1~9` 4px 단계 등)과 "테마에 따라 바뀌는 값은 두 블록 모두에 정의" 규칙 → [README 9.2](../README.md#디자인-토큰-css-변수)
 - 스타일시트 전체에서 `var(--...)`를 298번 사용
 - **10초 시연**: `F12` → Elements에서 `<html>` 선택 → Styles의 `:root`에서 `--color-primary`를 `red`로 바꾸면 로고 점·버튼·필터 등 사용처 30곳이 동시에 바뀐다. (다크 모드라면 `[data-theme="dark"]` 규칙의 값을 바꿔야 보인다)
 
@@ -196,7 +199,7 @@
 | JS로 만든 HTML | 템플릿 안에 `onclick="setFilter('C#')"` 같은 JS 코드 문자열을 넣게 됨 | 부모에 리스너 1개 + `data-*`로 값만 전달 |
 | 보안 정책(CSP) | 인라인 스크립트 금지 정책에 막힘 | 허용(이 사이트엔 CSP 미설정이지만, 설정해도 깨지지 않는 구조) |
 
-코드: [js/layout.js#L102](../js/layout.js#L102) `scroll` + `{ passive: true }` 옵션 사용 예, [js/projects.js#L271-L275](../js/projects.js#L271-L275) 필터 버튼 **이벤트 위임**(부모 하나에 리스너 1개, `event.target.closest('.filter-btn')`로 누른 버튼 찾기)
+코드: [js/layout.js#L102](../js/layout.js#L102) `scroll` + `{ passive: true }` 옵션 사용 예, [js/projects.js#L271-L275](../js/projects.js#L271-L275) 필터 버튼 **이벤트 위임**(부모 하나에 리스너 1개, `event.target.closest('.filter-btn')`로 누른 버튼 찾기). 리스너 15곳을 파일별로 모은 표는 [README 9.5](../README.md#95-이벤트-목록).
 
 **꼬리 질문 대비**
 - *"이벤트 위임이 뭔가요?"* → 클릭 이벤트는 누른 요소에서 부모 쪽으로 올라갑니다(버블링). 그래서 버튼마다 리스너를 달지 않고 항상 존재하는 부모에 하나만 달아 두면, JS가 나중에 만들어 넣은 버튼 클릭도 처리됩니다.
@@ -270,12 +273,14 @@ const loadRepos = async () => {
 
 | 상황 | 처리 | 화면 문구 |
 |---|---|---|
-| 네트워크 끊김 | `fetch`가 스스로 실패(`TypeError`) | 네트워크에 연결할 수 없습니다... |
-| 10초 무응답 | `AbortSignal.timeout(10000)`이 중단([L227](../js/projects.js#L227)) | 서버 응답이 너무 늦습니다... |
-| 403/429 + 남은 횟수 0 | `response.ok`가 false → 직접 `throw`([L233-L240](../js/projects.js#L233-L240)) | GitHub API 요청 한도(시간당 60회)를 초과했습니다. (시각) 이후에... |
-| 404 | 직접 `throw`([L242](../js/projects.js#L242)) | GitHub 사용자 'ADOHI'를 찾을 수 없습니다. |
-| 500 등 | 직접 `throw`([L243](../js/projects.js#L243)) | GitHub 서버에서 오류가 발생했습니다. (HTTP 500) |
-| 응답이 배열이 아님 | 직접 `throw`([L247](../js/projects.js#L247)) | GitHub에서 예상하지 못한 형식의 응답을 받았습니다. |
+| 네트워크 끊김 | `fetch`가 스스로 실패(`TypeError`) | 네트워크에 연결할 수 없습니다. Wi-Fi나 데이터 연결을 확인한 뒤 '다시 시도'를 눌러 주세요. |
+| 10초 무응답 | `AbortSignal.timeout(10000)`이 중단([L227](../js/projects.js#L227)) | 서버가 10초 안에 응답하지 않았습니다. 네트워크가 느리거나 GitHub가 혼잡할 수 있으니 잠시 후 '다시 시도'를 눌러 주세요. |
+| 403/429 + 남은 횟수 0 | `response.ok`가 false → 직접 `throw`([L233-L240](../js/projects.js#L233-L240)) | GitHub API 요청 한도(시간당 60회)를 초과했습니다. (시각) 이후에 다시 시도해 주세요. 그동안은 'GitHub에서 보기'로 저장소를 볼 수 있습니다. |
+| 404 | 직접 `throw`([L242](../js/projects.js#L242)) | GitHub 사용자 'ADOHI'를 찾을 수 없습니다. 'GitHub에서 보기'로 직접 확인해 주세요. |
+| 500 등 | 직접 `throw`([L243](../js/projects.js#L243)) | GitHub 서버에서 오류가 발생했습니다. (HTTP 500) 잠시 후 '다시 시도'를 눌러 주세요. |
+| 응답이 배열이 아님 | 직접 `throw`([L247](../js/projects.js#L247)) | GitHub에서 예상하지 못한 형식의 응답을 받았습니다. 잠시 후 '다시 시도'를 눌러 주세요. |
+
+> 문구는 모두 "원인 + 지금 할 일" 구조입니다. 레이트 리밋만 "다시 시도" 대신 풀리는 시각과 "GitHub에서 보기"를 안내하는 이유는, 한도가 풀리기 전에는 다시 눌러도 같은 결과이기 때문입니다.
 
 **꼬리 질문 대비**
 - *"await를 안 쓰면?"* → `fetch`는 결과가 아니라 **나중에 결과를 주겠다는 약속(Promise)**을 바로 돌려줍니다. 예를 들어 [L255](../js/projects.js#L255)에서 `await`를 빼면 `data`에 배열이 아니라 Promise가 들어가서 `data.filter is not a function` `TypeError`가 납니다.
@@ -322,6 +327,8 @@ const loadRepos = async () => {
 | | 스킬 카드 [L681](../css/style.css#L681) | 1열 → 2열 → 4열을 열 개수로 딱 지정 |
 | | About [L627](../css/style.css#L627), Contact [L1056](../css/style.css#L1056) | [사진 \| 소개], [연락처 \| 폼]처럼 칸 크기를 먼저 정하는 레이아웃 |
 
+코드에서 바로 보여 줄 곳: 헤더 [L363](../css/style.css#L363) · 카드 [L812](../css/style.css#L812) · About [L628](../css/style.css#L628) · Skills [L682](../css/style.css#L682)의 `display` 줄 끝에 **왜 Flex/Grid인지 한 줄 주석**을 달아 두었습니다.
+
 **꼬리 질문 대비**
 - *"카드 목록도 flex-wrap으로 되지 않나요?"* → 되지만 마지막 줄 카드가 혼자 넓게 늘어나거나 열이 안 맞기 쉽습니다. Grid는 열을 먼저 정하고 카드를 칸에 넣기 때문에 모든 줄이 반듯합니다.
 - *"auto-fit과 auto-fill 차이는?"* → 카드가 적을 때 `auto-fit`은 빈 열을 0으로 접어 카드를 늘리고, `auto-fill`은 빈 열을 그대로 남겨 둡니다. 그래서 PowerShell처럼 저장소가 1개인 언어를 누르면 카드가 가로로 꽉 찹니다(`auto-fill`이면 1/3 폭으로 남음). 7장일 때 마지막 한 장은 1/3 폭 그대로라, flex-wrap처럼 마지막 줄만 늘어나는 문제는 없습니다. 과제 요구가 `auto-fit`이라 그것을 썼습니다. (1개짜리 언어가 5개라 필터 시연 중 이 장면이 자주 나옵니다)
@@ -357,6 +364,7 @@ setProjectState({ status: 'error', errorMessage: toErrorMessage(error) });
 - *"`{ ...projectState, ...changes }`는 뭔가요?"* → 기존 상태를 복사한 새 객체에 바뀐 값만 덮어쓰는 **스프레드 문법**입니다. 원본을 직접 고치지 않는 방식이라 React에서도 똑같이 씁니다.
 - *"render 밖에서 필터 버튼 `innerHTML`을 바꾸네요?"*([js/projects.js#L259](../js/projects.js#L259)) → 의도적인 예외입니다. 매 렌더마다 버튼을 새로 만들면 방금 누른 버튼의 키보드 포커스가 사라집니다. 그래서 버튼 목록은 데이터가 바뀔 때만 만들고, 선택 표시는 `renderProjects`가 상태를 보고 그립니다([L188-L192](../js/projects.js#L188-L192)).
 - *"평가표는 STATE 객체라는데 왜 하나로 안 합쳤나요?"* → 테마·프로젝트·폼은 서로 독립된 기능이라 파일마다 자기 상태를 가집니다. 합치면 폼에 한 글자 칠 때 프로젝트까지 다시 그리게 됩니다.
+- *"전역 스코프를 공유하는데 이름이 겹치거나 다른 파일이 상태를 건드리면요?"* → 이름은 `{기능}State` · `set{기능}State` · `render{기능}`, 상수는 `UPPER_SNAKE_CASE`로 기능을 드러내고, **상태는 선언한 파일만 읽고 쓴다**는 경계 규칙을 지킵니다([README 9.3](../README.md#일반-스크립트는-전역-스코프를-공유한다--이름-충돌을-어떻게-피했나)). 이름이 겹치면 자동 검증이 FAIL을 냅니다.
 - *"왜 `const`가 아니라 `let`인가요?"* → set 함수가 상태를 새 객체로 통째로 교체하기 때문입니다([js/projects.js#L43](../js/projects.js#L43)).
 - *"매번 전체를 다시 그리면 비효율 아닌가요?"* → 카드가 수십 개 수준이라 단순함이 더 이득입니다. 규모가 커지면 바뀐 부분만 찾아 갱신해야 하고, 그게 React 가상 DOM이 하는 일입니다.
 

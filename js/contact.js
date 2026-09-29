@@ -19,7 +19,7 @@ const FIELD_NAMES = ['name', 'email', 'message'];
 const NAME_MIN_LENGTH = 2;
 const MESSAGE_MIN_LENGTH = 10;
 const MESSAGE_MAX_LENGTH = 1000;
-// 아이디@도메인.최상위도메인(2자 이상) — 도메인의 각 부분은 비어 있을 수 없다 (a@b..com, a@.com 거부)
+// 아이디@도메인.최상위도메인(2자 이상) — 도메인의 각 부분은 비어 있을 수 없다 (a@b..com, a@.com 거부). 한글 등 국제화 주소도 허용하며, RFC 전체 규칙이 아니라 흔한 형식 오류를 빠르게 잡는 수준이다
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)*\.[^\s@.]{2,}$/;
 const SEND_TIMEOUT = 10000;
 

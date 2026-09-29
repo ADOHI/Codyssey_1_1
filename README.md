@@ -3,6 +3,7 @@
 > 외부 라이브러리 없이 **순수 HTML · CSS · JavaScript**만으로 만든 인디 게임 개발자 ADOHI의 반응형 포트폴리오 웹사이트
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-live-2ea44f?logo=github&logoColor=white)](https://adohi.github.io/Codyssey_1_1/)
+[![verify](https://github.com/ADOHI/Codyssey_1_1/actions/workflows/verify.yml/badge.svg)](https://github.com/ADOHI/Codyssey_1_1/actions/workflows/verify.yml)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS3-1572B6?logo=css&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6%2B-F7DF1E?logo=javascript&logoColor=black)
@@ -14,8 +15,9 @@
 | **배포 URL** | **<https://adohi.github.io/Codyssey_1_1/>** |
 | **저장소 URL** | **<https://github.com/ADOHI/Codyssey_1_1>** |
 | 상태별 UI 데모 | [로딩](https://adohi.github.io/Codyssey_1_1/?demo=loading#projects) · [에러](https://adohi.github.io/Codyssey_1_1/?demo=error#projects) · [빈 상태](https://adohi.github.io/Codyssey_1_1/?demo=empty#projects) |
+| 자동 검증 (CI) | [GitHub Actions 실행 기록](https://github.com/ADOHI/Codyssey_1_1/actions/workflows/verify.yml) · [최근 보고서 (74 PASS)](docs/VERIFY_REPORT.md) · [설명](#19-자동-검증-ci) |
 
-> **동료평가 하시는 분께** — 시간이 없다면 [8. 요구사항 체크리스트](#8-요구사항-체크리스트-동료평가용)와 [11. 동료평가 5분 체크 가이드](#11-동료평가-5분-체크-가이드)부터 보시면 됩니다. 과제에서 README에 적도록 한 기준값은 **스크롤 탑 버튼 300px 이상 · 헤더 배경 변경 60px 이상 · Intersection Observer threshold 0.2** 입니다 ([7. 기준값](#7-기준값)).
+> **동료평가 하시는 분께** — 시간이 없다면 [8. 요구사항 체크리스트](#8-요구사항-체크리스트-동료평가용)와 [11. 동료평가 5분 체크 가이드](#11-동료평가-5분-체크-가이드)부터 보시면 됩니다. 받은 동료평가 피드백 15개를 어디에 반영했는지는 [20. 동료평가 피드백 반영](#20-동료평가-피드백-반영)에 모았습니다. 과제에서 README에 적도록 한 기준값은 **스크롤 탑 버튼 300px 이상 · 헤더 배경 변경 60px 이상 · Intersection Observer threshold 0.2** 입니다 ([7. 기준값](#7-기준값)).
 
 ---
 
@@ -45,6 +47,8 @@
 16. [알려진 한계 & 개선 아이디어](#16-알려진-한계--개선-아이디어)
 17. [관련 문서](#17-관련-문서)
 18. [참고 자료 & 출처](#18-참고-자료--출처)
+19. [자동 검증 (CI)](#19-자동-검증-ci)
+20. [동료평가 피드백 반영](#20-동료평가-피드백-반영)
 
 ---
 
@@ -89,6 +93,7 @@ flowchart LR
 
 > 스크린샷은 headless Chrome을 Chrome DevTools Protocol로 조작해 찍었습니다. 애니메이션이 멈춘 상태로 찍히도록 `prefers-reduced-motion`을 에뮬레이션했고, 시간당 60회 제한을 피하려고 GitHub API 응답은 한 번 받아 둔 fixture로 제공했습니다. 그래서 저장소 개수(전체 27개)는 **촬영 시점 기준**입니다.
 > 데스크톱: 1440×900 (1x) · 모바일: 390×844 (2x, 실제 파일 780×1688)
+> `bp-*.png` 4장과 `state-network-error.png` · `state-rate-limit.png`는 [자동 검증 스크립트](#19-자동-검증-ci)가 `--screenshots` 옵션으로 찍은 것이라 **합성(가짜) 저장소 데이터**가 보입니다.
 
 ### 데스크톱 — 라이트 모드
 
@@ -121,6 +126,19 @@ flowchart LR
 | <img src="images/screenshots/state-loading.png" width="420" alt="Projects 로딩 상태. 회전하는 스피너와 '프로젝트를 불러오는 중...' 문구"> | <img src="images/screenshots/state-error.png" width="420" alt="Projects 에러 상태. 경고 아이콘, '프로젝트를 불러올 수 없습니다.' 문구와 다시 시도 버튼, GitHub에서 보기 버튼"> |
 | **빈 상태** | **언어 필터 적용** |
 | <img src="images/screenshots/state-empty.png" width="420" alt="Projects 빈 상태. 받은편지함 아이콘과 '표시할 프로젝트가 없습니다.' 문구"> | <img src="images/screenshots/state-filter.png" width="420" alt="C# 필터를 선택한 화면. C# 버튼이 강조되고 '10개 중 6개 표시' 안내와 C# 저장소 카드, 더 보기 버튼이 보임"> |
+| **실제 에러 경로: 네트워크 끊김** | **실제 에러 경로: 레이트 리밋 (403)** |
+| <img src="images/screenshots/state-network-error.png" width="420" alt="네트워크 끊김 에러 상태. '프로젝트를 불러올 수 없습니다.' 아래에 Wi-Fi나 데이터 연결을 확인한 뒤 다시 시도를 누르라는 안내와 다시 시도, GitHub에서 보기 버튼"> | <img src="images/screenshots/state-rate-limit.png" width="420" alt="레이트 리밋 에러 상태. 요청 한도(시간당 60회)를 초과했다는 안내, 오후 04:35 이후에 다시 시도하라는 시각, 그동안 GitHub에서 보기를 이용하라는 안내"> |
+
+> 로딩 · 에러 · 빈 상태는 `?demo=` 흉내이고, 마지막 줄 두 장은 데모가 아닌 **실제 `fetch` 경로**입니다. 네트워크 끊김은 요청을 실패시켜(`TypeError`), 레이트 리밋은 `403` + `x-ratelimit-remaining: 0` 응답을 돌려줘서 재현했습니다. 직접 재현 · 캡처하는 순서는 [10장 캡처 · 재현 절차](#캡처--재현-절차)에 있습니다.
+
+### 브레이크포인트별 렌더 (자동 검증 스냅샷)
+
+자동 검증 B 그룹이 4가지 폭에서 **가로 넘침 없음 · 메뉴 형태 · 카드 열 수**를 검사하면서 Projects 섹션을 찍은 것입니다 ([검사 결과 #11–#26](docs/VERIFY_REPORT.md)). 카드 제목의 `<img src=x onerror=alert(1)>`는 XSS 방어 검사용 가짜 저장소 이름이 **글자로만** 보이는 모습이고, 아주 긴 `snake_case` 이름은 넘침 검사용입니다.
+
+| 375px (모바일) | 768px (태블릿) | 1024px (데스크톱) | 1440px (넓은 화면) |
+|:---:|:---:|:---:|:---:|
+| <img src="images/screenshots/bp-375.png" width="150" alt="375px 폭 Projects. 햄버거 버튼, 두 줄로 줄바꿈된 필터, 카드 1열"> | <img src="images/screenshots/bp-768.png" width="200" alt="768px 폭 Projects. 가로 메뉴, 필터와 개수 안내가 한 줄 양 끝, 카드 2열"> | <img src="images/screenshots/bp-1024.png" width="220" alt="1024px 폭 Projects. 가로 메뉴와 카드 3열"> | <img src="images/screenshots/bp-1440.png" width="240" alt="1440px 폭 Projects. 본문 최대 너비 1120px로 가운데 정렬된 카드 3열"> |
+| 햄버거 메뉴, 필터 줄바꿈, 개수 안내는 필터 아래, 카드 1열 · 스킬 1열 | 가로 메뉴, 툴바가 한 줄 양 끝으로, 카드 2열 · 스킬 2열 | 카드 3열 · 스킬 4열 · Contact 2열 | 본문이 최대 1120px에서 멈추고 가운데 정렬, 카드 3열 유지 |
 
 ### 폼 유효성 검사
 
@@ -133,7 +151,7 @@ flowchart LR
 | 기능 | 설명 | 관련 파일 |
 |---|---|---|
 | 반응형 레이아웃 | 모바일 퍼스트. 768px · 1024px에서 메뉴, About, Skills, Contact, Footer 배치가 바뀌고, 프로젝트 카드는 미디어 쿼리 없이 `auto-fit + minmax`로 1~3열 | [css/style.css](css/style.css#L1323) |
-| 다크 모드 | 토글 버튼 → `<html data-theme>` 변경 → CSS 변수 교체. `localStorage`에 저장, 저장값이 없으면 OS 설정(`prefers-color-scheme`)을 따름 | [js/theme.js](js/theme.js#L49) |
+| 다크 모드 | 토글 버튼 → `<html data-theme>` 변경 → CSS 변수 교체. `localStorage`에 저장, 저장값이 없으면 OS 설정(`prefers-color-scheme`)을 따름. 저장이 막힌 브라우저에서는 이번 방문에만 적용하고 버튼 툴팁으로 안내 | [js/theme.js](js/theme.js#L49), [#L32](js/theme.js#L32) |
 | 햄버거 메뉴 | 768px 미만에서 `classList.toggle('active')`로 열고 닫음. Esc · 바깥 클릭 · 링크 클릭 · 화면이 768px 이상으로 넓어질 때(가로 회전 등) 닫힘 | [js/layout.js](js/layout.js#L40) |
 | 부드러운 스크롤 | `href="#..."` 링크 클릭 시 `preventDefault()` 후 `scrollIntoView({ behavior: 'smooth' })`(동작 줄이기 설정이면 즉시 이동), 주소창 해시와 포커스도 이동 | [js/layout.js](js/layout.js#L72) |
 | 헤더 배경 변경 | **60px 이상** 스크롤하면 헤더에 `.scrolled` → 반투명 배경 · 테두리 · 그림자 | [js/layout.js](js/layout.js#L97) |
@@ -165,11 +183,12 @@ flowchart LR
 | 아이콘 | **인라인 SVG 아이콘** | [Feather Icons](https://feathericons.com/) (MIT), [Lucide](https://lucide.dev/) (ISC) 모양을 SVG `<symbol>` 스프라이트로 넣고 `<use>`로 재사용 ([index.html#L46-L93](index.html#L46-L93)) |
 | 배포 | **GitHub Pages** | `main` 브랜치의 루트 폴더를 그대로 배포 |
 | 개발 환경 | **VS Code + Live Server** | [.vscode/extensions.json](.vscode/extensions.json)이 Live Server 확장을 추천, 포트 5500 |
+| 자동 검증 | **Node.js 내장 모듈 + Chrome DevTools Protocol**, **GitHub Actions** | [scripts/verify.mjs](scripts/verify.mjs) — 사이트에 포함되지 않는 개발용 스크립트, 외부 패키지 0개 ([19장](#19-자동-검증-ci)) |
 
 ### 사용하지 않은 것
 
 - **프레임워크 / UI 라이브러리 없음**: React, Vue, jQuery, Bootstrap, Tailwind 등 전혀 사용하지 않음
-- **빌드 도구 없음**: npm, `package.json`, 번들러(Webpack · Vite 등), 트랜스파일러(Babel · TypeScript) 없음 — 저장소의 파일이 **작성한 그대로** 브라우저에서 실행됨
+- **빌드 도구 없음**: npm, `package.json`, 번들러(Webpack · Vite 등), 트랜스파일러(Babel · TypeScript) 없음 — 저장소의 파일이 **작성한 그대로** 브라우저에서 실행됨 (검증 스크립트도 `npm install` 없이 `node`로 바로 실행)
 - **아이콘 폰트 없음**: Font Awesome도 쓰지 않고 SVG를 직접 넣음
 - **금지 문법 없음**: `var`, `onclick` 같은 인라인 이벤트 속성, `style="..."` 인라인 스타일, 심지어 `function` 키워드도 쓰지 않음 (모두 화살표 함수)
 
@@ -193,11 +212,16 @@ Codyssey_1_1/
 ├── images/
 │   ├── profile.svg             # 스크립트로 생성한 픽셀 아트 프로필 이미지 (About)
 │   ├── favicon.svg             # 브라우저 탭 아이콘
-│   └── screenshots/            # README용 스크린샷 17장 (데스크톱·모바일·다크·상태별·폼)
+│   └── screenshots/            # README용 스크린샷 23장 (데스크톱·모바일·다크·상태별·폼 + 자동 검증 스냅샷 6장)
 ├── docs/
 │   ├── REVIEW_GUIDE.md         # 동료평가 항목(1~5)별 시연 순서와 답변
 │   ├── QNA.md                  # 동료평가 예상 질문과 답변
-│   └── CONCEPTS.md             # 과제에 쓰인 개념 정리
+│   ├── CONCEPTS.md             # 과제에 쓰인 개념 정리
+│   └── VERIFY_REPORT.md        # 자동 검증 결과 보고서 (스크립트가 생성)
+├── scripts/
+│   └── verify.mjs              # 자동 검증: 정적 검사 + headless Chrome 동작 검사 (사이트에는 포함 안 됨)
+├── .github/workflows/
+│   └── verify.yml              # push · PR마다 verify.mjs를 실행하는 GitHub Actions
 ├── .vscode/
 │   ├── extensions.json         # Live Server 확장(ritwickdey.LiveServer) 추천
 │   └── settings.json           # Live Server 포트 5500, 루트 "/"
@@ -205,6 +229,8 @@ Codyssey_1_1/
 ├── .gitignore                  # OS 임시 파일(.DS_Store, Thumbs.db)과 로컬 도구 설정(.claude/) 제외
 └── README.md                   # 지금 보고 있는 문서
 ```
+
+> **이미지 최적화와 빌드 파이프라인** — 사이트가 실제로 내려받는 이미지는 SVG 2개(`profile.svg` · `favicon.svg`, 각 약 3KB)뿐이고, `screenshots/`의 PNG는 README 전용이라 방문자는 받지 않습니다. 그래서 이미지 압축 · 변환 단계(빌드 파이프라인)는 과제의 "빌드 도구 없이" 원칙에 맞춰 **일부러 두지 않았습니다.** 프로필을 사진으로 바꾼다면: ① **WebP/AVIF**로 저장(`<picture>`로 JPEG 대체 제공), ② `width` · `height` 속성으로 자리 확보(지금 프로필 `img`에도 있음, [index.html#L153](index.html#L153)), ③ `srcset` + `sizes`로 화면 폭별 크기 제공(예: 240w · 480w), ④ 첫 화면 밖 이미지는 `loading="lazy"`.
 
 ---
 
@@ -234,9 +260,13 @@ python -m http.server 5500
 
 > `index.html`을 파일로 직접 더블클릭해 열어도 대부분 보이지만, 배포 환경(GitHub Pages, `https://`)과 같은 조건에서 확인하려면 로컬 서버를 쓰는 것이 안전합니다.
 
+### (c) 자동 검증 실행
+
+Node.js 22 이상과 Chrome이 설치되어 있으면 프로젝트 폴더에서 `node scripts/verify.mjs` 한 줄로 74개 검사를 돌릴 수 있습니다(약 6초, API 요청 횟수를 쓰지 않음). 자세한 내용은 [19장](#19-자동-검증-ci).
+
 ### 주의: GitHub API 요청 한도
 
-인증 없이 GitHub API를 호출하면 **IP당 시간당 60회**로 제한됩니다. 페이지를 불러올 때마다 1회씩 요청하므로, 개발 중에 새로고침을 아주 많이 하면 한도를 넘을 수 있습니다. 한도를 넘으면 Projects 영역에 "GitHub API 요청 한도(시간당 60회)를 초과했습니다. HH:MM 이후에 다시 시도해 주세요." 에러 UI가 나옵니다. 화면만 확인하고 싶을 때는 `?demo=` 모드([10장](#10-상태별-ui-확인-방법))를 쓰면 API를 호출하지 않습니다.
+인증 없이 GitHub API를 호출하면 **IP당 시간당 60회**로 제한됩니다. 페이지를 불러올 때마다 1회씩 요청하므로, 개발 중에 새로고침을 아주 많이 하면 한도를 넘을 수 있습니다. 한도를 넘으면 Projects 영역에 "GitHub API 요청 한도(시간당 60회)를 초과했습니다. HH:MM 이후에 다시 시도해 주세요. 그동안은 'GitHub에서 보기'로 저장소를 볼 수 있습니다." 에러 UI가 나옵니다. 화면만 확인하고 싶을 때는 `?demo=` 모드([10장](#10-상태별-ui-확인-방법))를 쓰면 API를 호출하지 않습니다.
 
 ---
 
@@ -276,7 +306,7 @@ python -m http.server 5500
 | `NAME_MIN_LENGTH` | `2` | 이름 최소 글자 수 | [js/contact.js#L19](js/contact.js#L19) |
 | `MESSAGE_MIN_LENGTH` | `10` | 메시지 최소 글자 수 | [js/contact.js#L20](js/contact.js#L20) |
 | `MESSAGE_MAX_LENGTH` | `1000` | 글자 수 카운터의 최대값 표시 (`0 / 1000`). 실제 입력 제한은 HTML `maxlength="1000"` | [js/contact.js#L21](js/contact.js#L21), [index.html#L334](index.html#L334) |
-| `EMAIL_PATTERN` | 정규식 | `아이디@도메인.최상위도메인(2자 이상)` 형식 검사 | [js/contact.js#L23](js/contact.js#L23) |
+| `EMAIL_PATTERN` | 정규식 | `아이디@도메인.최상위도메인(2자 이상)` 형식 검사. 국제화(한글 등) 주소 허용, RFC 전체 규칙은 아님 ([한계](#이메일-정규식의-한계)) | [js/contact.js#L22-L23](js/contact.js#L22-L23) |
 | 입력 최대 길이 | 이름 `50`, 이메일 `100` | HTML `maxlength` | [index.html#L322](index.html#L322), [#L328](index.html#L328) |
 | 데모 전송 지연 | `800` (ms) | 대비용 데모 경로(`action`에 `YOUR_FORM_ID`가 다시 들어간 경우)에서 "전송 중..."을 보여 주는 시간. 현재는 실제 전송이라 쓰이지 않음 | [js/contact.js#L118](js/contact.js#L118) |
 | 태블릿 브레이크포인트 | `768px` | `@media (min-width: 768px)` + JS의 메뉴 초기화 기준 | [css/style.css#L1323](css/style.css#L1323), [js/layout.js#L49](js/layout.js#L49) |
@@ -360,7 +390,7 @@ python -m http.server 5500
 | ✅ | 5-2. 부드러운 스크롤 | 모든 `a[href^="#"]`에 click → `preventDefault()` → `scrollIntoView({ behavior: 'smooth' })` (동작 줄이기 설정이면 `'auto'`로 즉시 이동) | [js/layout.js#L72-L90](js/layout.js#L72-L90) | 메뉴 · CTA · 로고 클릭 |
 | ✅ | 5-3. 스크롤 탑 버튼 (**300px 이상**, README 명시) | `scrollY >= 300`이면 `.visible`, 클릭 시 `scrollTo({ top: 0 })` | [js/layout.js#L14](js/layout.js#L14), [#L98](js/layout.js#L98), [#L108-L112](js/layout.js#L108-L112) | [7. 기준값](#7-기준값), 콘솔에서 `scrollTo(0, 299)` / `scrollTo(0, 300)` |
 | ✅ | 5-4. 네비게이션 스타일 변경 (**60px 이상**, README 명시) | `scrollY >= 60`이면 헤더에 `.scrolled` → 배경 · 테두리 · 그림자 · blur | [js/layout.js#L13](js/layout.js#L13), [#L97](js/layout.js#L97), [css/style.css#L353-L360](css/style.css#L353-L360) | 콘솔에서 `scrollTo(0, 59)` / `scrollTo(0, 60)` |
-| ✅ | 5-5. 다크 모드 (`localStorage` 유지) | 토글 시 `localStorage.setItem('theme', ...)`, 시작 시 저장값 → OS 설정 → light 순으로 결정 | [js/theme.js#L19-L39](js/theme.js#L19-L39), [#L56-L65](js/theme.js#L56-L65) | 토글 → 새로고침 → 유지. Application → Local Storage → `theme` |
+| ✅ | 5-5. 다크 모드 (`localStorage` 유지) | 토글 시 `localStorage.setItem('theme', ...)`, 시작 시 저장값 → OS 설정 → light 순으로 결정. 저장이 막히면 이번 방문에만 적용 + 버튼 툴팁 안내 | [js/theme.js#L19-L39](js/theme.js#L19-L39), [#L56-L65](js/theme.js#L56-L65) | 토글 → 새로고침 → 유지. Application → Local Storage → `theme` |
 | ✅ | 5-6. 스크롤 애니메이션 (IntersectionObserver, **threshold 0.2**, README 명시) | `.reveal` 요소가 20% 보이면 `.revealed` 추가 후 관찰 해제 | [js/effects.js#L12-L25](js/effects.js#L12-L25), [css/style.css#L1301-L1310](css/style.css#L1301-L1310) | 스크롤하며 섹션 제목·카드가 떠오르는지 |
 
 ### 기능 요구 사항 6. 폼 UX
@@ -369,7 +399,7 @@ python -m http.server 5500
 |:---:|---|---|---|---|
 | ✅ | 6-1. 이름 · 이메일 · 메시지 필드 | `input[type=text]`, `input[type=email]`, `textarea` | [index.html#L320-L339](index.html#L320-L339) | Contact 폼 확인 |
 | ✅ | 6-2. 필수값 검증 | 앞뒤 공백을 뺀(`trim`) 값이 비어 있으면 "이름을 입력해 주세요." 등 | [js/contact.js#L32-L48](js/contact.js#L32-L48), [#L51-L52](js/contact.js#L51-L52) | 빈 채로 제출 |
-| ✅ | 6-3. 이메일 형식 검증 | 정규식 `EMAIL_PATTERN` (`a@b..com`, `a@.com` 같은 형식도 거부) | [js/contact.js#L23](js/contact.js#L23), [#L38-L42](js/contact.js#L38-L42) | `abc@` 입력 후 다른 칸 클릭 |
+| ✅ | 6-3. 이메일 형식 검증 | 정규식 `EMAIL_PATTERN` (`a@b..com`, `a@.com` 같은 형식도 거부, 한글 등 국제화 주소는 허용 — [한계](#이메일-정규식의-한계)) | [js/contact.js#L22-L23](js/contact.js#L22-L23), [#L38-L42](js/contact.js#L38-L42) | `abc@` 입력 후 다른 칸 클릭 |
 | ✅ | 6-4. 필드 근처에 에러 메시지 | 각 입력칸 바로 아래 `p.form-field__error`에 문구, 입력칸은 빨간 테두리 + `aria-invalid` | [index.html#L323](index.html#L323), [js/contact.js#L91-L100](js/contact.js#L91-L100) | [폼 검증 스크린샷](#폼-유효성-검사) |
 | ✅ | 6-5. 제출 시 `preventDefault` + 성공 메시지 | 기본 제출 막기 → 전체 검증 → 통과 시 "전송 중..." → 성공 메시지 + 폼 초기화 | [js/contact.js#L156-L184](js/contact.js#L156-L184), [#L73-L80](js/contact.js#L73-L80) | 올바르게 입력 후 제출 |
 
@@ -428,8 +458,8 @@ python -m http.server 5500
 | ✅ | C-3. `var` 대신 `const` / `let` | `var` 0개 | 모든 `js/*.js` | `git grep -nw var -- js` → 결과 없음 |
 | ✅ | C-4. `onclick` 대신 `addEventListener` | 인라인 이벤트 속성 0개 | 모든 파일 | `git grep -n onclick -- index.html js` → 결과 없음 |
 | ✅ | C-5. 인라인 스타일(`style="..."`) 금지 | HTML · JS 템플릿 · `element.style` 모두 미사용. 모양은 클래스 토글로만 변경 | 모든 파일 | `git grep -n "style=" -- index.html js` → 결과 없음 |
-| ✅ | C-6. 최신 Chrome 정상 동작 | 브라우저 수동 확인 + 리뷰 단계에서 headless Chrome 실행 테스트 | [14장](#14-개발-과정--트러블슈팅) | 최신 Chrome으로 배포 URL 접속 |
-| ✅ | C-7. 제출물: 저장소 URL, 배포 URL, 데스크톱/모바일/다크 모드 스크린샷 | 이 README 맨 위 URL 표 + [2. 스크린샷](#2-스크린샷) 17장 | [images/screenshots/](images/screenshots/) | 이 문서 |
+| ✅ | C-6. 최신 Chrome 정상 동작 | 브라우저 수동 확인 + headless Chrome 자동 검증 74개를 push마다 CI에서 실행 | [scripts/verify.mjs](scripts/verify.mjs), [19장](#19-자동-검증-ci) | 최신 Chrome으로 배포 URL 접속, [Actions](https://github.com/ADOHI/Codyssey_1_1/actions/workflows/verify.yml) |
+| ✅ | C-7. 제출물: 저장소 URL, 배포 URL, 데스크톱/모바일/다크 모드 스크린샷 | 이 README 맨 위 URL 표 + [2. 스크린샷](#2-스크린샷) 23장 | [images/screenshots/](images/screenshots/) | 이 문서 |
 | ✅ | C-8. GitHub API 시간당 60회 제한 → 403 레이트 리밋 시 에러 상태 UI | 403/429이면서 `x-ratelimit-remaining`이 `'0'`일 때 "요청 한도(시간당 60회)를 초과했습니다. HH:MM 이후에…" (재설정 시각 표시) | [js/projects.js#L231-L244](js/projects.js#L231-L244) | [9.6](#96-비동기--에러-처리), [10장](#10-상태별-ui-확인-방법) |
 
 ---
@@ -487,6 +517,19 @@ body
 | 간격 | `--space-1`(4px) ~ `--space-9`(96px), 4px 배수 | 여백이 일정한 리듬을 가짐 |
 | 모양 · 움직임 | `--radius-*`, `--shadow-sm/md/lg`, `--transition-fast/base` | 카드 · 버튼이 같은 규칙을 공유 |
 
+**새 토큰을 추가할 때의 규칙** (현재 `:root` 45개, 그중 다크 테마에서 다시 정의하는 것 18개)
+
+| 종류 | 이름 규칙 | 예 |
+|---|---|---|
+| 색 | `--color-{역할}[-{변형}]` — 색 이름(`blue`)이 아니라 **역할**로. 강조색 위 글자는 `--color-on-{배경 역할}` | `--color-primary`, `--color-primary-hover`, `--color-text-muted`, `--color-on-primary` |
+| 간격 | `--space-1`~`--space-9`, **4px 배수 단계**(4 · 8 · 12 · 16 · 24 · 32 · 48 · 64 · 96px). 기존 단계에서 고르고, 꼭 필요하면 끝 번호 뒤에 추가(중간 끼워 넣기 금지 — 기존 번호의 뜻이 바뀜) | `--space-4`(16px) |
+| 글자 크기 | `--fs-{크기}`(`2xs`~`xl`), 특정 용도 전용이면 `--fs-{용도}` | `--fs-sm`, `--fs-hero` |
+| 모서리 · 그림자 · 전환 | `--radius-{sm·md·lg·full}`, `--shadow-{sm·md·lg}`, `--transition-{fast·base}` | `--shadow-lg` |
+| 글꼴 · 레이아웃 치수 | 글꼴은 `--font-{용도}`(`sans` · `mono`), 여러 규칙이 같이 맞춰야 하는 고정 치수는 `--{대상}-{속성}` | `--font-mono`, `--header-height`, `--container-width` |
+
+- **테마에 따라 바뀌는 값(색 · 그림자)은 `:root`와 `[data-theme="dark"]` 두 곳에 모두** 정의합니다. 다크 쪽에 빠뜨리면 라이트 값이 그대로 남아 대비가 깨집니다. 간격 · 폰트 · 모서리처럼 테마와 무관한 값은 `:root`에만 둡니다.
+- 글자색 / 배경색 조합을 새로 만들면 [자동 검증](#19-자동-검증-ci)의 명도 대비 목록(`CONTRAST_PAIRS`, [scripts/verify.mjs#L653-L659](scripts/verify.mjs#L653-L659))에 한 줄 추가해 라이트 · 다크 모두 4.5:1 이상인지 검사합니다.
+
 #### 다크 모드 = 변수 값 교체
 
 ```css
@@ -522,6 +565,8 @@ JS는 `<html data-theme="dark">` 속성 하나만 바꾸고([js/theme.js#L43](js
 | About 정보 `.about__facts` [L654](css/style.css#L654) | **Grid** | 1열 → 2×2 |
 | Contact `.contact__grid` [L1056](css/style.css#L1056) | **Grid** | 1열 → `1fr 1.8fr` (연락처 : 폼) |
 
+> **코드에도 이유를 적었습니다** — 대표 컴포넌트 4곳은 `display` 선언과 **같은 줄 주석**으로 왜 Flex/Grid인지 남겼습니다: 헤더 [`.header__inner` L363](css/style.css#L363) "로고 · 메뉴 · 버튼을 한 줄(1차원)로 늘어놓기 → Flexbox", 카드 [`.project-card` L812](css/style.css#L812) "설명이 남는 높이를 채워 정보 줄을 바닥에 붙이기 → Flexbox", [`.about__grid` L628](css/style.css#L628) "[사진 | 소개] 칸 크기를 부모에서 한 줄(220px 1fr)로 정하기 → Grid", [`.skills__grid` L682](css/style.css#L682) "행 · 열 격자(2차원), 열 수를 1 → 2 → 4로 지정 → Grid".
+>
 > 프로젝트 목록이 데스크톱에서 최대 3열인 이유: 본문 최대 너비 1120px에서 좌우 여백(24px×2)을 빼면 1072px이고, 4열이 되려면 300px×4 + 간격 24px×3 = 1272px이 필요해서 3열까지만 들어갑니다.
 
 #### 모바일 퍼스트 — 브레이크포인트에서 바뀌는 것
@@ -541,6 +586,8 @@ JS는 `<html data-theme="dark">` 속성 하나만 바꾸고([js/theme.js#L43](js
 | Contact | 1열, 제출 버튼 전체 폭 | 폼 여백 확대, 제출 버튼 오른쪽 정렬 | `1fr 1.8fr` 2열 |
 | Footer | 세로 가운데 정렬 | 가로 양 끝 + 아래 여백 확보(스크롤 탑 버튼이 가리지 않게) | – |
 | 스크롤 탑 버튼 위치 | 오른쪽 아래 16px | 32px | – |
+
+> **검증**: 가로 넘침 없음 · 햄버거 ↔ 가로 메뉴 · 프로젝트 1/2/3/3열 · 스킬 1/2/4/4열을 [자동 검증](#19-자동-검증-ci) B 그룹이 375 · 768 · 1024 · 1440px에서 매번 확인하고, 그때 찍은 화면이 [브레이크포인트별 스냅샷](#브레이크포인트별-렌더-자동-검증-스냅샷)입니다. `max-width` 쿼리가 끼어들면 A 그룹 검사가 FAIL을 냅니다.
 
 ### 9.3 JavaScript 구조
 
@@ -574,9 +621,21 @@ JS는 `<html data-theme="dark">` 속성 하나만 바꾸고([js/theme.js#L43](js
 
 그래서 다음 규칙을 지켰습니다.
 
-1. **여러 파일이 쓰는 함수는 `utils.js` 한 곳에만** 선언하고 가장 먼저 불러옵니다 ([js/utils.js#L1-L7](js/utils.js#L1-L7) 주석).
-2. **파일마다 구체적인 이름**을 붙였습니다. 예: 상태는 `currentTheme` / `projectState` / `formState`, 관찰자는 `revealObserver` / `sectionObserver`, 요소는 `siteHeader` / `themeToggle` / `projectGrid` / `contactForm`, 타임아웃은 `REQUEST_TIMEOUT` / `SEND_TIMEOUT`.
-3. **검증**: 6개 파일의 최상위 선언 **80개가 모두 서로 다릅니다.** 아래 명령의 출력이 비어 있으면 중복이 없는 것입니다.
+**이름 규칙** — 이름에 기능(파일)을 드러내서, 전역에서 만나도 겹치지 않게 합니다.
+
+| 대상 | 규칙 | 예 |
+|---|---|---|
+| 상태 | 파일당 `let` 하나, `{기능}State` (단일 값이면 `current{기능}`) | `projectState`, `formState`, `currentTheme` |
+| 상태 변경 | `set{기능}State` / `set{기능}` — 상태를 바꾸는 **유일한** 함수 | `setProjectState`, `setFormState`, `setTheme` |
+| 렌더 | `render{기능}` — 상태만 읽고 DOM을 갱신 | `renderProjects`, `renderForm`, `renderTheme` |
+| DOM 요소 · 관찰자 | 기능 접두사 + 역할 | `projectGrid`, `contactForm`, `navToggle`, `revealObserver`, `sectionObserver` |
+| 상수 | `UPPER_SNAKE_CASE`, 겹칠 만한 이름은 기능을 붙임 | `REQUEST_TIMEOUT` / `SEND_TIMEOUT`, `THEME_STORAGE_KEY` |
+
+**파일 경계 규칙**
+
+1. **상태는 그 상태를 선언한 파일만** 읽고 씁니다. 예를 들어 `contact.js`는 `projectState`를 건드리지 않습니다(상태 이름이 등장하는 파일이 각각 1개뿐 — `git grep -n "projectState" -- js`).
+2. **여러 파일이 쓰는 것은 `utils.js`의 상태 없는 도우미**(`sleep`, `prefersReducedMotion`)뿐이고, 이 파일을 가장 먼저 불러옵니다 ([js/utils.js#L1-L7](js/utils.js#L1-L7) 주석).
+3. **검증**: 6개 파일의 최상위 선언 **80개가 모두 서로 다릅니다.** [자동 검증](#19-자동-검증-ci) A 그룹이 6개 파일을 `index.html` 순서대로 이어 붙여 파싱해 보고, 이름이 겹치면 `SyntaxError`로 FAIL을 냅니다. 손으로 확인하려면 아래 명령의 출력이 비어 있으면 됩니다.
    ```bash
    grep -hoE '^(const|let) [A-Za-z_$][A-Za-z0-9_$]*' js/*.js | awk '{print $2}' | sort | uniq -d
    ```
@@ -621,6 +680,7 @@ const setTheme = (nextTheme, { save = false } = {}) => {
 - **변경**: `setTheme` ([L49](js/theme.js#L49)) — 버튼 클릭([L56](js/theme.js#L56))에서는 `{ save: true }`로 저장까지, OS 설정 변경([L68](js/theme.js#L68))에서는 저장하지 않음(사용자가 직접 고른 값을 덮어쓰지 않기 위해).
 - **렌더**: `renderTheme` ([L42](js/theme.js#L42)) — `data-theme` 속성과 `aria-pressed`만 바꾸고, 실제 색은 CSS 변수가 처리.
 - 지원 브라우저에서는 View Transitions API로 화면 전체가 부드럽게 전환됩니다([L60-L61](js/theme.js#L60-L61)). `localStorage` 접근은 시크릿 모드 등에서 에러가 날 수 있어 `try/catch`로 감쌌습니다([L19-L34](js/theme.js#L19-L34)).
+- **저장이 막힌 환경의 대체 동작**: 사이트 데이터 저장을 차단한 브라우저에서는 `setItem`이 에러를 던집니다. 이때도 `renderTheme`은 그대로 실행돼 **테마는 이번 방문 동안 바뀌고**, 토글 버튼의 `title`에 "이 브라우저에서는 테마 설정을 저장할 수 없어 이번 방문에만 적용됩니다."를 넣어 **임시 적용**임을 알립니다([L32](js/theme.js#L32)). `title`은 마우스를 올리면 툴팁으로 보이고, 스크린 리더에는 버튼 이름("다크 모드")에 이어 설명으로 읽힙니다. 새로고침하면 저장값이 없으므로 OS 설정으로 돌아갑니다. ([자동 검증](#19-자동-검증-ci) C 그룹이 `setItem`을 강제로 실패시켜 확인)
 
 #### ② GitHub API 상태 — [js/projects.js](js/projects.js)
 
@@ -701,6 +761,16 @@ contactForm.addEventListener('focusout', (event) => {
 - **렌더**: `renderForm` ([L85-L110](js/contact.js#L85-L110)) — **에러 메시지는 상태로 저장하지 않고** 렌더할 때마다 `validateForm(values)`로 계산합니다(파생 값). 그래서 "값은 고쳤는데 에러는 남아 있는" 불일치가 생길 수 없습니다.
 - **언제 에러를 보여 주나**: 입력 도중에 미리 재촉하지 않도록 **칸을 벗어난 뒤(`touched`)** 부터 보여 주고, 에러가 보이던 칸은 **고치는 즉시** 사라집니다. 제출하면 모든 칸의 에러를 한꺼번에 보여 주고 첫 번째 잘못된 칸으로 포커스를 옮깁니다([L160-L169](js/contact.js#L160-L169)).
 
+##### 이메일 정규식의 한계
+
+`EMAIL_PATTERN`([L22-L23](js/contact.js#L22-L23))은 `아이디@도메인.최상위도메인(2자 이상)` **모양만** 봅니다. 글자 종류를 영문으로 제한하지 않아(`[^\s@]` = 공백과 `@`만 아니면 됨) 다국어 입력과 **국제화(유니코드) 주소**를 막지 않고, 반대로 RFC 5322의 모든 규칙을 검사하지도 않습니다.
+
+| 통과 | 거부 |
+|---|---|
+| `name@example.com`, `a+tag@sub.example.co.kr`, `홍길동@회사.한국` | `abc@`, `a@.com`, `a@b..com`, `a@b.c`(최상위 1자), `user@localhost`(점 없는 도메인), `"a b"@x.com`(RFC상 유효한 따옴표 주소) |
+
+주소가 **실제로 존재하는지는 형식 검사로 알 수 없고**, 메일을 보내 답장이 닿아야 확인됩니다. 그래서 정규식은 흔한 오타만 빠르게 잡는 1차 필터로 두었고, `user@localhost`나 따옴표 주소처럼 개인 연락용으로 드문 형식을 거부하는 것은 의도한 절충입니다.
+
 #### ④ 언어 필터 · 더 보기 — [js/projects.js](js/projects.js)
 
 ```mermaid
@@ -733,7 +803,97 @@ projectFilters.addEventListener('click', (event) => {
 - **렌더**: 같은 `renderProjects`. 원본 `repos`는 그대로 두고 **그릴 때만** 거르고 자르므로, "전체"로 돌아오면 모든 저장소가 다시 보입니다.
 - **이벤트 위임**: 필터 버튼은 JS가 나중에 만들어 넣기 때문에, 항상 존재하는 부모(`.project-filters`)에 리스너를 **한 번만** 달고 `event.target.closest('.filter-btn')`으로 어떤 버튼인지 찾습니다. 다시 시도 버튼도 같은 방식입니다([L277-L278](js/projects.js#L277-L278)).
 
+#### 시퀀스로 보기 — `setTheme` · `setProjectState` · `setFormState`
+
+위 흐름도를 **시간 순서**로 다시 그린 것입니다. 세 흐름 모두 "이벤트 → `set…` → `render…`" 한 방향으로만 움직입니다.
+
+```mermaid
+sequenceDiagram
+    actor U as 사용자
+    participant T as theme.js
+    participant LS as localStorage
+    participant D as DOM과 CSS
+    U->>T: 토글 버튼 click
+    T->>T: setTheme(next, save true) - currentTheme 변경
+    T->>LS: saveTheme - setItem
+    alt 저장이 막힌 브라우저
+        LS-->>T: 에러 throw
+        T->>D: 버튼 title에 이번 방문에만 적용 안내
+    end
+    T->>D: renderTheme - html data-theme, aria-pressed
+    D-->>U: CSS 변수가 바뀌어 전체 색 변경
+```
+
+```mermaid
+sequenceDiagram
+    actor U as 사용자
+    participant P as projects.js
+    participant API as GitHub API
+    participant D as DOM
+    Note over U,P: 페이지 로드 또는 다시 시도 click
+    P->>P: setProjectState(status loading)
+    P->>D: renderProjects - 스피너, aria-busy true
+    P->>API: await fetch, 10초 타임아웃
+    alt 성공, 응답이 배열
+        API-->>P: 200 + 저장소 목록
+        P->>P: 포크 제외 후 setProjectState(status success, repos)
+        P->>D: renderProjects - 카드 6개, N개 중 6개 표시
+    else 네트워크 끊김, 시간 초과, 403, 404, 5xx
+        API-->>P: reject 또는 ok false 후 throw
+        P->>P: catch - setProjectState(status error, errorMessage)
+        P->>D: renderProjects - 원인과 할 일, 다시 시도 버튼
+    end
+    U->>P: 언어 필터 click, 부모에서 위임
+    P->>P: setProjectState(filter, visibleCount 6)
+    P->>D: renderProjects - filter, slice, map 후 innerHTML
+```
+
+```mermaid
+sequenceDiagram
+    actor U as 사용자
+    participant C as contact.js
+    participant F as Formspree
+    participant D as DOM
+    U->>C: input, 글자 입력
+    C->>C: setFormState(values)
+    C->>D: renderForm - 벗어난 적 있는 칸만 에러 표시
+    U->>C: focusout, 칸을 벗어남
+    C->>C: setFormState(touched)
+    C->>D: renderForm - 그 칸의 에러, aria-invalid
+    U->>C: submit
+    C->>C: preventDefault, setFormState(values, touched 전체)
+    alt 검증 실패
+        C->>D: 에러 표시, 첫 잘못된 칸으로 focus
+    else 검증 통과
+        C->>C: setFormState(status submitting)
+        C->>F: fetch POST, 10초 타임아웃
+        F-->>C: 응답 ok 또는 실패
+        C->>C: setFormState(status success 또는 error)
+        C->>D: renderForm - 결과 문구, role status
+    end
+```
+
+**흐름 체크리스트** — 아래는 [자동 검증](#19-자동-검증-ci) C 그룹이 실제 클릭 · 키 입력 · 글자 입력을 보내고 DOM을 확인하는 항목입니다(번호는 [보고서](docs/VERIFY_REPORT.md)의 `#`).
+
+| 상태 | 이벤트 → 기대하는 상태 · 화면 | 검사 |
+|---|---|---|
+| `currentTheme` | 첫 방문 light · 토글 → dark + `aria-pressed` + 저장 · 새로고침 유지 · 저장 차단 시 안내 · OS 다크면 dark로 시작 | #27–#31 |
+| `projectState` | 로드 → 카드 6개 + 더 보기 · 필터 → 3개 · 더 보기 → 8개 · `?demo` 3종 · 네트워크 끊김 → 복구 후 다시 시도 · 레이트 리밋 문구 | #40–#51 |
+| `formState` | 빈 제출 → 에러 3개 + 첫 칸 포커스 · 입력 중에는 조용 · focusout → 에러 · 고치면 즉시 해제 · 전송 성공/실패 문구 | #52–#57 |
+
 ### 9.5 이벤트 목록
+
+**파일별 요약** — 리스너는 모두 `addEventListener`로 15곳(`git grep -n addEventListener -- js`)이고, 각 파일의 `이벤트` 구역에 모여 있습니다.
+
+| 파일 | 듣는 이벤트 (대상) | 개수 |
+|---|---|:---:|
+| [js/theme.js](js/theme.js#L55-L70) | `click`(테마 토글) · `change`(OS 다크 모드 설정) | 2 |
+| [js/layout.js](js/layout.js#L40-L112) | `click`(햄버거) · `change`(768px 경계) · `keydown`(Esc) · `click`(문서, 메뉴 바깥) · `click`(모든 `#` 링크) · `scroll`(창) · `click`(스크롤 탑) | 7 |
+| [js/projects.js](js/projects.js#L268-L291) | `click` 위임(필터 버튼) · `click` 위임(다시 시도) · `click`(더 보기) | 3 |
+| [js/contact.js](js/contact.js#L134-L184) | `input` · `focusout` · `submit` (모두 폼 하나에 위임) | 3 |
+| `utils.js` · `effects.js` | 없음 (도우미 함수, IntersectionObserver만 사용) | 0 |
+
+**전체 목록**
 
 | 이벤트 | 대상 요소 | 하는 일 | 위치 |
 |---|---|---|---|
@@ -791,10 +951,10 @@ if (!response.ok) {
   if (response.status === 403 || response.status === 429) {
     const isRateLimited = response.headers.get('x-ratelimit-remaining') === '0';
     if (isRateLimited) { /* 재설정 시각을 계산해 한도 초과 안내 */ }
-    throw new Error(`GitHub API 요청이 거부되었습니다. (HTTP ${response.status}) 잠시 후 다시 시도해 주세요.`);
+    throw new Error(`GitHub API 요청이 거부되었습니다. (HTTP ${response.status}) 잠시 후 '다시 시도'를 누르거나 'GitHub에서 보기'를 이용해 주세요.`);
   }
-  if (response.status === 404) throw new Error(`GitHub 사용자 '${GITHUB_USERNAME}'를 찾을 수 없습니다.`);
-  throw new Error(`GitHub 서버에서 오류가 발생했습니다. (HTTP ${response.status})`);
+  if (response.status === 404) throw new Error(`GitHub 사용자 '${GITHUB_USERNAME}'를 찾을 수 없습니다. 'GitHub에서 보기'로 직접 확인해 주세요.`);
+  throw new Error(`GitHub 서버에서 오류가 발생했습니다. (HTTP ${response.status}) 잠시 후 '다시 시도'를 눌러 주세요.`);
 }
 ```
 
@@ -804,15 +964,19 @@ if (!response.ok) {
 - **`response.ok` 확인이 필요한 이유**: `fetch`는 **응답을 받기만 하면**(404, 403, 500이어도) 성공으로 끝납니다. reject되는 것은 응답 자체를 받지 못했을 때(네트워크 연결 실패, CORS 차단, 요청 취소 · 시간 초과)뿐입니다. 그래서 `response.ok`(상태 코드 200~299)를 직접 검사해서 실패면 `throw`합니다.
 - **`try/catch`**: `fetchRepos` 안에서 `throw`한 에러와 `fetch` 자체의 실패가 모두 [`loadRepos`의 `catch`](js/projects.js#L261-L264)로 모입니다. 여기서 `console.error`로 개발자용 기록을 남기고, 사용자에게는 [`toErrorMessage`](js/projects.js#L207-L211)로 바꾼 문장을 보여 줍니다.
 
-| 상황 | 감지 방법 | 화면에 보이는 원인 문구 | 위치 |
+에러 화면은 항상 제목 "프로젝트를 불러올 수 없습니다." + **원인 문구** + "다시 시도" · "GitHub에서 보기" 버튼입니다. 원인 문구는 **무슨 일이 생겼는지와 사용자가 지금 할 일**을 함께 알려 주도록 썼고, 할 일은 화면에 있는 두 버튼 중 하나로 이어집니다.
+
+| 상황 | 감지 방법 | 화면에 보이는 원인 문구 (원인 → 할 일) | 위치 |
 |---|---|---|---|
-| 레이트 리밋 (시간당 60회 초과) | 403 또는 429 **이면서** `x-ratelimit-remaining` 헤더가 `'0'` | "GitHub API 요청 한도(시간당 60회)를 초과했습니다. HH:MM 이후에 다시 시도해 주세요." (`x-ratelimit-reset`으로 재설정 시각 계산) | [L233-L239](js/projects.js#L233-L239) |
-| 그 밖의 403 / 429 | 위 헤더가 `'0'`이 아님 | "GitHub API 요청이 거부되었습니다. (HTTP 403) 잠시 후 다시 시도해 주세요." | [L240](js/projects.js#L240) |
-| 사용자 없음 | 404 | "GitHub 사용자 'ADOHI'를 찾을 수 없습니다." | [L242](js/projects.js#L242) |
-| 서버 오류 등 | 그 외 `!response.ok` | "GitHub 서버에서 오류가 발생했습니다. (HTTP 500)" | [L243](js/projects.js#L243) |
-| 시간 초과 (10초) | `AbortSignal.timeout(10000)`이 요청을 취소 → 에러 이름 `TimeoutError` | "서버 응답이 너무 늦습니다. 네트워크 상태를 확인한 뒤 다시 시도해 주세요." | [L208](js/projects.js#L208), [L227](js/projects.js#L227) |
-| 네트워크 끊김 · 요청 차단 | `fetch`가 `TypeError`로 reject | "네트워크에 연결할 수 없습니다. 인터넷 연결을 확인해 주세요." | [L209](js/projects.js#L209) |
-| 예상과 다른 응답 | `Array.isArray(data)`가 거짓 | "GitHub에서 예상하지 못한 형식의 응답을 받았습니다." | [L247](js/projects.js#L247) |
+| 네트워크 끊김 · 요청 차단 | `fetch`가 `TypeError`로 reject | "네트워크에 연결할 수 없습니다. Wi-Fi나 데이터 연결을 확인한 뒤 '다시 시도'를 눌러 주세요." | [L209](js/projects.js#L209) |
+| 시간 초과 (10초) | `AbortSignal.timeout(10000)`이 요청을 취소 → 에러 이름 `TimeoutError` | "서버가 10초 안에 응답하지 않았습니다. 네트워크가 느리거나 GitHub가 혼잡할 수 있으니 잠시 후 '다시 시도'를 눌러 주세요." | [L208](js/projects.js#L208), [L227](js/projects.js#L227) |
+| 레이트 리밋 (시간당 60회 초과) | 403 또는 429 **이면서** `x-ratelimit-remaining` 헤더가 `'0'` | "GitHub API 요청 한도(시간당 60회)를 초과했습니다. HH:MM 이후에 다시 시도해 주세요. 그동안은 'GitHub에서 보기'로 저장소를 볼 수 있습니다." (`x-ratelimit-reset`으로 재설정 시각 계산, 예: `오후 04:35`) | [L233-L239](js/projects.js#L233-L239) |
+| 그 밖의 403 / 429 | 위 헤더가 `'0'`이 아님 | "GitHub API 요청이 거부되었습니다. (HTTP 403) 잠시 후 '다시 시도'를 누르거나 'GitHub에서 보기'를 이용해 주세요." | [L240](js/projects.js#L240) |
+| 사용자 없음 | 404 | "GitHub 사용자 'ADOHI'를 찾을 수 없습니다. 'GitHub에서 보기'로 직접 확인해 주세요." | [L242](js/projects.js#L242) |
+| 서버 오류 등 | 그 외 `!response.ok` | "GitHub 서버에서 오류가 발생했습니다. (HTTP 500) 잠시 후 '다시 시도'를 눌러 주세요." | [L243](js/projects.js#L243) |
+| 예상과 다른 응답 | `Array.isArray(data)`가 거짓 | "GitHub에서 예상하지 못한 형식의 응답을 받았습니다. 잠시 후 '다시 시도'를 눌러 주세요." | [L247](js/projects.js#L247) |
+
+> 레이트 리밋에서 "다시 시도"를 권하지 않는 이유: 한도가 풀리기 전에는 몇 번을 눌러도 같은 결과라서, 풀리는 **시각**과 기다리는 동안 쓸 수 있는 **다른 길**("GitHub에서 보기")을 알려 줍니다. 네트워크 끊김과 레이트 리밋 화면은 [스크린샷](#상태별-ui-github-api)에 있고, [자동 검증](#19-자동-검증-ci)이 두 문구를 매번 확인합니다.
 
 > **왜 403을 모두 "60회 초과"라고 하지 않나?** 403은 레이트 리밋 말고도 다른 이유로 올 수 있습니다. 처음에는 모든 403/429를 "시간당 60회 초과"로 안내했는데, 리뷰에서 "사실과 다른 안내가 나갈 수 있다"는 지적을 받아 **남은 요청 수 헤더가 `'0'`일 때만** 한도 초과로 판단하도록 고쳤습니다([14장 사례 7](#사례-7-모든-403429를-시간당-60회-초과로-안내)).
 
@@ -836,10 +1000,19 @@ GitHub API는 보통 금방 성공하기 때문에 로딩 · 에러 · 빈 상�
 
 데모 모드는 에러를 흉내 낸 것이므로, 실제 요청이 실패하는 경로는 DevTools로 확인할 수 있습니다. (F12 → **Network** 탭)
 
-1. **요청 차단 → 네트워크 에러**: Network 탭에서 `repos?sort=updated...` 요청을 오른쪽 클릭 → **Block request URL** → 새로고침. 페이지는 뜨지만 API 요청만 막혀 `TypeError`가 발생하고 "네트워크에 연결할 수 없습니다. 인터넷 연결을 확인해 주세요." 에러 UI가 나옵니다. 이어서 차단 목록 패널(Network request blocking)에서 체크를 해제하고 **다시 시도**를 누르면 카드가 정상으로 표시됩니다(재시도 동작 확인).
+1. **요청 차단 → 네트워크 에러**: Network 탭에서 `repos?sort=updated...` 요청을 오른쪽 클릭 → **Block request URL** → 새로고침. 페이지는 뜨지만 API 요청만 막혀 `TypeError`가 발생하고 "네트워크에 연결할 수 없습니다. Wi-Fi나 데이터 연결을 확인한 뒤 '다시 시도'를 눌러 주세요." 에러 UI가 나옵니다. 이어서 차단 목록 패널(Network request blocking)에서 체크를 해제하고 **다시 시도**를 누르면 카드가 정상으로 표시됩니다(재시도 동작 확인).
 2. **느린 네트워크 → 실제 로딩 상태**: Network 탭의 스로틀링을 **Slow 3G**(또는 3G)로 바꾸고 새로고침하면 실제 요청 동안 스피너가 오래 보입니다.
 3. **오프라인 → 네트워크 에러**: 에러 화면이 떠 있는 상태(1번 방법)에서 스로틀링을 **Offline**으로 바꾸고 차단을 해제한 뒤 "다시 시도"를 누르면 오프라인이라 다시 네트워크 에러가 나옵니다. (Offline 상태에서 새로고침하면 페이지 자체가 안 열리므로, 페이지를 먼저 연 뒤에 Offline으로 바꿉니다.)
 4. **레이트 리밋 헤더 보기**: Network 탭에서 `repos` 요청 → **Headers** → Response Headers의 `x-ratelimit-limit`(60), `x-ratelimit-remaining`(남은 횟수), `x-ratelimit-reset`(재설정 시각, 초 단위 Unix 시간)을 확인할 수 있습니다. 남은 횟수가 `0`인 상태에서 요청이 403/429로 거부되면 코드가 한도 초과 문구를 보여 줍니다. (60번째 요청은 `remaining`이 `0`이어도 정상 응답이므로 카드가 그대로 보입니다.)
+
+### 캡처 · 재현 절차
+
+README의 상태별 스크린샷을 다시 만들거나 직접 재현하는 순서입니다. 캡처는 DevTools에서 `Ctrl+Shift+P` → `Capture screenshot`(보이는 영역) 또는 `Capture full size screenshot`.
+
+1. **로딩 · 에러 · 빈 상태** — 위 표의 `?demo=loading` · `?demo=error` · `?demo=empty` 링크를 열고, Projects가 보이면 캡처합니다. API를 호출하지 않으므로 몇 번이든 됩니다.
+2. **실제 네트워크 에러** — 정상 주소를 열고 Network 탭에서 `repos` 요청 → **Block request URL** → `F5` → 네트워크 에러 문구가 뜨면 캡처. 차단을 풀고 "다시 시도"를 누르면 복구까지 확인됩니다.
+3. **실제 로딩(느린 응답)** — Network 스로틀링 **Slow 3G** → `F5` → 스피너가 보일 때 캡처 → 스로틀링 원복.
+4. **레이트 리밋 · 네트워크 에러를 한 번에** — 진짜 한도를 소진(60회)하지 않고 재현하려면 자동 검증 스크립트를 씁니다. `node scripts/verify.mjs --screenshots`를 실행하면 GitHub 요청에 `403` + `x-ratelimit-remaining: 0`(30분 뒤 재설정) 가짜 응답과 연결 실패를 돌려줘서 `state-rate-limit.png` · `state-network-error.png`와 브레이크포인트 스냅샷 `bp-*.png` 4장을 `images/screenshots/`에 다시 저장합니다. 실제 GitHub · Formspree로는 요청이 나가지 않습니다([19장](#19-자동-검증-ci)).
 
 ---
 
@@ -882,6 +1055,7 @@ GitHub API는 보통 금방 성공하기 때문에 로딩 · 에러 · 빈 상�
     git grep -n onclick -- index.html js
     git grep -n "style=" -- index.html js
     ```
+15. **(선택) 자동 검증** — 맨 위 **verify** 배지가 초록(passing)인지 보거나, clone한 폴더에서 `node scripts/verify.mjs`를 실행하면 위 1~14번 대부분(반응형 · 테마 · 스크롤 기준값 · 메뉴 키보드 · API 상태 · 폼 · 접근성)을 74개 검사로 약 6초 만에 확인합니다. 네트워크는 가짜 응답이라 API 횟수나 실제 메일을 쓰지 않습니다.
 
 ---
 
@@ -907,6 +1081,46 @@ GitHub API는 보통 금방 성공하기 때문에 로딩 · 에러 · 빈 상�
 | JavaScript 꺼짐 대비 | `<noscript>`로 `noscript.css`를 불러와 숨겨 둔 `.reveal` 요소를 보이게 하고, JS가 필요한 버튼은 숨기고, 메뉴를 한 줄로 펼침. Projects에는 "GitHub에서 저장소 보기" 링크 | [index.html#L27](index.html#L27), [css/noscript.css](css/noscript.css), [index.html#L280-L282](index.html#L280-L282) |
 | 고정 헤더 가림 방지 | 앵커 이동 시 헤더 높이만큼 여백(`scroll-padding-top`) | [css/style.css#L134](css/style.css#L134) |
 
+### 동적 콘텐츠 알림 (`aria-live`)
+
+JS가 나중에 바꾸는 글자는 화면을 보지 못하는 사용자가 알아채기 어려우므로, **바뀌는 영역만** 라이브 영역으로 지정했습니다. 모두 `polite`(하던 말을 마친 뒤 읽음)라 읽고 있던 내용을 끊지 않습니다.
+
+| 영역 | 설정 | 읽어 주는 내용 | 위치 |
+|---|---|---|---|
+| `.project-status` | `aria-live="polite"` | "프로젝트를 불러오는 중..." → 에러 제목 + 원인 · 할 일, 또는 "표시할 프로젝트가 없습니다." | [index.html#L273](index.html#L273) |
+| `.project-count` | `aria-live="polite"` | 필터 · 더 보기 후 "8개 중 6개 표시"처럼 **결과 요약 한 줄** | [index.html#L270](index.html#L270) |
+| `.form-status` | `role="status"` (= 암묵적 `aria-live="polite"`) | "메시지가 전송되었습니다…" / "전송에 실패했습니다…" | [index.html#L348](index.html#L348) |
+
+- **왜 비어 있을 때도 남겨 두나**: 스크린 리더는 **이미 접근성 트리에 있던** 라이브 영역의 변화만 안정적으로 읽습니다. 영역을 `display:none`으로 숨겼다가 글자와 함께 보이게 하면 "새로 생긴 요소"로 취급돼 알림을 놓칠 수 있습니다. 그래서 세 영역은 처음부터 HTML에 빈 채로 두고 글자만 바꾸며, 빈 `.form-status`도 숨기지 않고 여백만 0으로 만듭니다([css/style.css#L1214-L1216](css/style.css#L1214-L1216)).
+- **일부러 라이브로 두지 않은 것**: 카드 그리드는 바뀔 때마다 카드 전체를 읽으면 너무 길어서 로딩 중 `aria-busy="true"`만 주고 요약은 `.project-count`가 맡습니다. 입력칸 에러는 글자마다 읽히면 시끄러우므로 `aria-describedby`로 연결해 **그 칸에 포커스가 있을 때** 설명으로 읽히게 했습니다.
+- **랜드마크는 고정**: `header` · `nav` · `main` · `section` · `footer`는 처음부터 HTML에 있고 JS가 만들거나 지우지 않습니다. 동적으로 바뀌는 것은 영역 **안쪽 내용**과 메뉴의 `aria-current`(지금 보는 섹션)뿐이라, 랜드마크로 이동하는 사용자의 길 찾기가 흔들리지 않습니다.
+
+### 햄버거 메뉴 — 키보드 · 스크린 리더 동작 (768px 미만)
+
+| 단계 | 키보드 | 스크린 리더가 전달하는 것 | 코드 |
+|---|---|---|---|
+| 닫힘 | `Tab` 순서: 스킵 링크 → 로고 → 테마 버튼 → 햄버거. 닫힌 메뉴는 `visibility: hidden`이라 **Tab과 스크린 리더 모두에서 빠짐** | "메뉴 열기, 버튼, 축소됨" (`aria-label` + `aria-expanded="false"`, `aria-controls="nav-menu"`) | [index.html#L115](index.html#L115), [css/style.css#L399](css/style.css#L399) |
+| 열기 | 햄버거에서 `Enter` 또는 `Space` → 포커스가 **첫 링크(Home)** 로 이동 | 버튼 이름이 "메뉴 닫기", 상태 "확장됨"으로 바뀌고, 포커스를 받은 링크를 "주요 메뉴" 탐색 영역 안의 링크로 읽음 | [js/layout.js#L29-L33](js/layout.js#L29-L33), [#L40-L46](js/layout.js#L40-L46) |
+| 이동 | `Tab` / `Shift+Tab`으로 링크 5개 → 테마 버튼 → 햄버거. 모달이 아닌 펼침 메뉴라 포커스를 가두지 않음 | 링크마다 이름과 "현재 위치"(`aria-current`) 여부 | [js/layout.js#L125](js/layout.js#L125) |
+| 선택 | 링크에서 `Enter` → 섹션으로 이동, **포커스도 섹션으로**, 메뉴 닫힘 | 이동한 섹션의 제목(`aria-labelledby`)을 읽음 | [js/layout.js#L85-L88](js/layout.js#L85-L88) |
+| 닫기 | `Esc` → 닫히고 **포커스가 햄버거로 복귀** (바깥 클릭 · 768px 이상으로 넓어져도 닫힘) | "메뉴 열기, 버튼, 축소됨" | [js/layout.js#L54-L59](js/layout.js#L54-L59) |
+
+- **스크롤 애니메이션은 포커스 · 읽기 순서에 영향이 없습니다.** `.reveal`은 `opacity`와 `transform`만 바꾸고 DOM 순서나 `display`를 건드리지 않아, 나타나기 전에도 접근성 트리와 Tab 순서에 그대로 있습니다([css/style.css#L1301-L1310](css/style.css#L1301-L1310)). OS의 "동작 줄이기"가 켜져 있으면 `.reveal`을 처음부터 보이게 하고 전환 시간을 없앱니다([css/style.css#L1438-L1453](css/style.css#L1438-L1453)).
+- **자동 확인**: 햄버거에 실제 키 입력으로 `Enter` → 첫 링크 포커스 · `Tab` → 두 번째 링크 · `Esc` → 햄버거로 복귀, 그리고 `aria-label` · `aria-expanded` · `aria-controls` 값을 [자동 검증](#19-자동-검증-ci)이 확인합니다(보고서 #37–#39, #62). 스크린 리더 음성 자체는 자동 검사로 들을 수 없어, 위 표의 "전달하는 것"은 속성 값 기준입니다.
+
+### 접근성 체크리스트
+
+| 항목 | 기준 | 확인 방법 |
+|---|---|---|
+| 스킵 링크 | 첫 `Tab`에 화면에 나타나고, `Enter`로 `main`에 포커스 | 자동 #63–#64 |
+| 명도 대비 | 글자 / 배경 5쌍 × 라이트 · 다크 = 10쌍 모두 **4.5:1 이상** (최저: 라이트 5.36:1 강조색, 다크 7.23:1) | 자동 #65–#74 |
+| 포커스 순서 | 스킵 링크 → 헤더 → 본문 섹션 순, 메뉴 열기 · 닫기 때 포커스 이동, 포커스 링(`:focus-visible`) 보임 | 자동 #37–#39 + 수동(`Tab`으로 끝까지) |
+| 이름 · 구조 | 버튼 · 링크 27개 모두 이름 있음(브라우저 접근성 트리 기준), 입력칸마다 `label`, `h1` 1개 · 제목 단계 건너뛰기 없음 | 자동 #59–#62 |
+| 동작 줄이기 | `prefers-reduced-motion: reduce`에서 전환 · 애니메이션 정지, `.reveal` 즉시 보임, 타이핑 · View Transition 멈춤 | 수동: DevTools → Rendering → `prefers-reduced-motion` 에뮬레이션 |
+| 고대비 모드 | `forced-colors: active`에서 햄버거 줄이 `CanvasText`로 보임 | 수동: DevTools → Rendering → `forced-colors` 에뮬레이션 |
+
+> axe · Lighthouse 같은 외부 검사 도구는 "외부 패키지 0개" 원칙 때문에 저장소에 넣지 않았고, 대신 위 자동 항목을 Chrome이 실제로 계산한 접근성 트리(CDP `Accessibility.getFullAXTree`)와 CSS 변수 값으로 직접 검사합니다. 추가로 확인하려면 DevTools → **Lighthouse** → Accessibility를 실행하면 됩니다.
+
 ---
 
 ## 13. 보안
@@ -917,7 +1131,16 @@ GitHub API는 보통 금방 성공하기 때문에 로딩 · 에러 · 빈 상�
 | **`javascript:` 링크** — 저장소 홈페이지(`homepage`) 값은 저장소 주인이 아무 문자열이나 넣을 수 있음 | [`isSafeUrl`](js/projects.js#L61)로 `http://` · `https://`로 시작할 때만 "Demo" 링크를 만듭니다 | [js/projects.js#L118](js/projects.js#L118) |
 | **탭 내빙(tabnabbing)** — `target="_blank"`로 연 페이지가 `window.opener`로 원래 페이지를 조작 | 새 창 링크에 모두 `rel="noopener noreferrer"` | [index.html#L304](index.html#L304), [#L361](index.html#L361), [js/projects.js#L88](js/projects.js#L88), [#L114](js/projects.js#L114), [#L119](js/projects.js#L119) |
 | **스팸 봇** | 사람에게 보이지 않는 honeypot 필드 `_gotcha`(Formspree 규칙: 값이 채워진 제출은 무시). `tabindex="-1"`, `aria-hidden`으로 키보드 · 스크린 리더 사용자도 건너뜀 | [index.html#L341-L345](index.html#L341-L345), [css/style.css#L1199-L1201](css/style.css#L1199-L1201) |
+| **XSS 회귀** — 나중에 누군가 escape를 빼먹는 경우 | [자동 검증](#19-자동-검증-ci)이 이름 · 설명에 `<img src=x onerror=alert(1)>`와 `<script>`를 넣은 가짜 저장소로 매번 렌더링해, 글자로만 보이고 요소 · `alert`가 생기지 않는지 확인 (보고서 #41) | [scripts/verify.mjs#L44](scripts/verify.mjs#L44), [#L60](scripts/verify.mjs#L60) |
 | **비밀 값 노출** | GitHub API는 인증 없이 호출하므로 토큰이 코드에 없습니다(정적 사이트의 JS는 누구나 볼 수 있으므로 토큰을 넣으면 안 됨). form `action`의 Formspree 주소(`https://formspree.io/f/xwlpaqwy`)는 페이지 소스에서 누구나 볼 수 있는 공개 값이며 비밀이 아닙니다. 이 주소로 오는 스팸은 honeypot `_gotcha`와 Formspree 자체 필터링으로 거릅니다 | [js/projects.js#L225-L228](js/projects.js#L225-L228), [index.html#L317](index.html#L317) |
+
+### 외부 문자열 삽입 규칙 (escape 정책)
+
+1. **`innerHTML`에 들어가는 외부 문자열은 예외 없이 [`escapeHTML`](js/projects.js#L51-L58)** 을 거칩니다: 저장소 이름 · 설명 · 토픽 · 언어(글자와 `data-lang` · `data-filter` 속성값) · 저장소 주소 · 홈페이지 주소 · 업데이트 날짜의 `datetime` 속성값, 그리고 에러 원인 문구([L85](js/projects.js#L85)). `& < > " '` 다섯 글자를 모두 바꾸고 속성값은 항상 `"…"`로 감싸므로, 값이 태그나 속성 밖으로 빠져나가지 못합니다. 코드: [js/projects.js#L110-L146](js/projects.js#L110-L146), [#L158-L162](js/projects.js#L158-L162).
+2. escape하지 않는 값은 **외부 문자열이 아닌 것**뿐입니다: GitHub가 숫자로 주는 스타 · 포크 수, 브라우저가 만든 날짜 글자(`toLocaleDateString`), 코드에 적힌 고정 문구.
+3. **주소를 `href`에 넣을 때**: 저장소 주인이 마음대로 적는 `homepage`는 [`isSafeUrl`](js/projects.js#L61)로 `http://` · `https://`일 때만 링크로 만들어 `javascript:` 주소를 막습니다. escape는 글자를 바꿀 뿐 `javascript:`를 막지 못하기 때문입니다.
+4. **글자만 바꿀 때는 `textContent`**: 개수 안내, 폼 에러 · 결과 문구, 글자 수, 푸터 연도는 HTML로 해석되지 않는 `textContent`로 넣습니다([js/projects.js#L199](js/projects.js#L199), [js/contact.js#L96](js/contact.js#L96), [#L107](js/contact.js#L107)).
+5. **값은 `data-*` 속성으로 전달**: 템플릿 안에 `onclick="...${값}"` 같은 인라인 JS를 만들지 않고, `data-filter`에 값을 넣은 뒤 부모의 리스너가 `button.dataset.filter`로 읽습니다([js/projects.js#L271-L275](js/projects.js#L271-L275)). 자동 검증 A 그룹이 HTML과 JS 템플릿 속 `on*=`을 검사합니다.
 
 ---
 
@@ -934,6 +1157,7 @@ GitHub API는 보통 금방 성공하기 때문에 로딩 · 에러 · 빈 상�
 5. **재확인** — 고친 뒤 다시 검증
 6. **스크린샷 촬영** — headless Chrome (동작 줄이기 에뮬레이션, API는 fixture 사용)
 7. **문서 작성** — README, `docs/`
+8. **동료평가 피드백 반영** — 15개 보완 의견을 문서 · 주석 · 에러 문구에 반영하고([20장](#20-동료평가-피드백-반영)), 수동으로 하던 확인을 [자동 검증 스크립트 + CI](#19-자동-검증-ci)로 옮김. 스크립트가 정말 문제를 잡는지 보려고 사이트 사본에서 23곳(escape 제거, 포크 필터 제거, 테마 저장 삭제, `max-width` 쿼리 추가, 버튼 `aria-label` 삭제 등)을 일부러 망가뜨려 **모두 FAIL로 잡히는 것**을 확인
 
 커밋 기록: `feat: 순수 HTML/CSS/JS 반응형 포트폴리오 초기 구현` → `fix: 다관점 리뷰 반영 (hover·접근성·반응형·에러 처리)` → 문서 커밋
 
@@ -1067,7 +1291,8 @@ if (!response.ok) throw new Error(`Formspree 응답 오류 (HTTP ${response.stat
 | **최소한의 noscript 대체** | JS가 없으면 프로젝트 카드 대신 GitHub 링크만 보이고, 테마 전환 · 필터를 쓸 수 없음. 폼은 `action` 주소(Formspree)로 일반 전송되지만, 배포 사이트 전송 확인은 JS가 켜진 상태에서만 했음 | JS를 끈 상태에서도 전송되는지 확인 |
 | **언어 색상 목록** | 언어 점 색은 14개 언어만 지정되어 있고, 나머지는 회색 | 필요한 언어 색 추가 |
 | **타이핑 효과 반복** | 타이핑 루프는 화면 밖에 있어도 계속 돎 (동작 줄이기 설정 시에만 멈춤) | IntersectionObserver로 Hero가 보일 때만 실행 |
-| **자동화 테스트 코드 없음** | 리뷰 단계에서 브라우저 테스트를 했지만, 저장소에 테스트 코드는 포함되어 있지 않음 | 검증 로직(`validateForm`, `escapeHTML`, `isSafeUrl`)부터 간단한 테스트 추가 |
+| **단위 테스트 없음 · 브라우저 1종** | [verify.mjs](#19-자동-검증-ci)는 Chrome에서 페이지 전체를 돌려 보는 통합 검사이고 합성 데이터를 씀. 함수 하나씩 따로 검사하는 단위 테스트와 Firefox · Safari 검사는 없음 | 순수 함수(`validators`, `escapeHTML`, `isSafeUrl`)에 Node 내장 `node:test` 단위 테스트 추가 |
+| **이미지 최적화 파이프라인 없음** | 빌드 단계가 없어 이미지 자동 압축 · 변환을 하지 않음 (현재 사이트 이미지는 SVG 2개, 각 약 3KB라 필요 없음) | 사진을 넣게 되면 WebP/AVIF + `srcset` · `sizes` + `loading="lazy"` ([5장 참고](#5-폴더-구조)) |
 
 ---
 
@@ -1078,6 +1303,7 @@ if (!response.ok) throw new Error(`Formspree 응답 오류 (HTTP ${response.stat
 | [docs/REVIEW_GUIDE.md](docs/REVIEW_GUIDE.md) | **평가 항목별 가이드** — 실제 동료평가표 항목 1~5에 맞춘 시연 순서, 30초 답변, 코드 위치, 꼬리 질문 대비 |
 | [docs/QNA.md](docs/QNA.md) | **예상 질문 & 답변** — 동료평가에서 나올 만한 질문(왜 이렇게 만들었는지, 코드가 어떻게 동작하는지)과 답변 |
 | [docs/CONCEPTS.md](docs/CONCEPTS.md) | **개념 정리** — 시맨틱 HTML, Flexbox · Grid, DOM 이벤트, ES6+ 문법, fetch · async/await, 상태 → 렌더링 흐름 등 이 프로젝트에 쓰인 개념 |
+| [docs/VERIFY_REPORT.md](docs/VERIFY_REPORT.md) | **자동 검증 보고서** — `verify.mjs`가 만든 74개 검사 결과표와 스냅샷 목록 |
 
 ---
 
@@ -1107,6 +1333,63 @@ if (!response.ok) throw new Error(`Formspree 응답 오류 (HTTP ${response.stat
 - [Chrome DevTools — Network](https://developer.chrome.com/docs/devtools/network)
 - [Live Server (VS Code 확장)](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
 - [shields.io](https://shields.io/) — README 배지
+
+---
+
+## 19. 자동 검증 (CI)
+
+[![verify](https://github.com/ADOHI/Codyssey_1_1/actions/workflows/verify.yml/badge.svg)](https://github.com/ADOHI/Codyssey_1_1/actions/workflows/verify.yml)
+
+`main`에 push하거나 PR을 올릴 때마다 GitHub Actions([.github/workflows/verify.yml](.github/workflows/verify.yml))가 [scripts/verify.mjs](scripts/verify.mjs)를 실행합니다. 하나라도 FAIL이면 종료 코드 1이 되어 [Actions 실행 기록](https://github.com/ADOHI/Codyssey_1_1/actions/workflows/verify.yml)에 빨간 X가 표시되고, 각 실행의 **Summary** 탭에 PASS/FAIL 표가 남습니다. 로컬에서 만든 최근 결과는 [docs/VERIFY_REPORT.md](docs/VERIFY_REPORT.md)(74 PASS / 0 FAIL)에 있습니다.
+
+**동작 방식** — 외부 패키지 0개(`npm install` 없음), Node.js 내장 모듈과 설치된 Chrome만 사용합니다.
+
+1. `node:http`로 프로젝트 폴더를 로컬 서버(`127.0.0.1`)로 띄웁니다.
+2. Chrome을 headless로 실행하고, Node 내장 `WebSocket`으로 Chrome DevTools Protocol(CDP)에 연결합니다.
+3. **페이지의 모든 요청을 가로챕니다.** `api.github.com` → 스크립트 안의 합성 저장소 9개(포크 1개, XSS 문자열, 아주 긴 이름 포함) 또는 연결 실패 · `403` 레이트 리밋, `formspree.io` → `200` · `500` 가짜 응답. **실제 GitHub API와 Formspree(실제 메일)로는 한 건도 나가지 않으며**, 허용 목록(로컬 · Google Fonts) 밖으로 나가려는 요청이 있으면 그것도 FAIL입니다.
+4. 클릭 · 키 입력 · 글자 입력을 **실제 브라우저 이벤트**로 보내고, DOM · 계산된 스타일 · 접근성 트리를 확인합니다.
+
+| 그룹 | 개수 | 확인하는 것 | 관련 피드백 |
+|---|:---:|---|---|
+| A 정적 | 10 | `var` 없음, 인라인 이벤트 · `style=` · `element.style` 없음, 모든 `<script>`에 `defer`, `label for` ↔ `id`, `img` `alt`, 시맨틱 랜드마크, `:root` + `[data-theme="dark"]`, 너비 미디어 쿼리는 `min-width` 768 · 1024뿐, 6개 JS 전역 이름 중복 없음 | #8 #9 #14 |
+| B 레이아웃 | 16 | 375 · 768 · 1024 · 1440px마다 가로 넘침 없음, 햄버거 ↔ 가로 메뉴, 프로젝트 1 · 2 · 3 · 3열, 스킬 1 · 2 · 4 · 4열 (+ [스냅샷](#브레이크포인트별-렌더-자동-검증-스냅샷)) | #1 |
+| C 상태 흐름 | 32 | 테마(첫 방문 · 토글 · 새로고침 · 저장 차단 · OS 다크), 스크롤 59/60 · 299/300px, 스크롤 애니메이션, 햄버거 키보드(`Enter` · `Tab` · `Esc`), 프로젝트(포크 제외 · XSS · Demo 링크 · 필터 · 더 보기), `?demo` 3종, 네트워크 끊김 → 복구, 레이트 리밋 문구, 폼(빈 제출 · focusout · 즉시 해제 · 전송 성공/실패), 네트워크 격리 | #2 #3 #4 #10 #11 #12 |
+| D 접근성 | 16 | `h1` 1개 · 제목 단계, 버튼 · 링크 접근 가능한 이름, 입력칸 `label`, 메뉴 토글 `aria-*`, 스킵 링크(표시 · 이동), 명도 대비 10쌍 ≥ 4.5:1 | #7 #15 |
+
+**직접 실행하기** (Node.js 22 이상 + Chrome. Chrome을 못 찾으면 환경 변수 `CHROME_PATH`에 실행 파일 경로 지정)
+
+```bash
+node scripts/verify.mjs                                  # 검사만 (약 6초)
+node scripts/verify.mjs --screenshots                    # + bp-*.png 4장 · state-network-error.png · state-rate-limit.png 다시 저장
+node scripts/verify.mjs --report docs/VERIFY_REPORT.md   # + 결과 보고서(마크다운) 저장
+```
+
+- 검사 하나는 2~3줄이고 한국어 주석이 달려 있어, 실패하면 콘솔의 `FAIL [그룹] 검사 이름 ← 이유`로 어느 기능이 깨졌는지 바로 알 수 있습니다. 한 묶음이 중간에 에러로 멈춰도 FAIL로 기록하고 다음 묶음을 계속 실행합니다.
+- 한계: Chrome 한 종류 · 합성 데이터 기준입니다. 실제 GitHub 응답과 실제 메일 발송은 배포 사이트에서 따로 확인했습니다([15장](#15-formspree-실제-전송-설정-방법)).
+
+---
+
+## 20. 동료평가 피드백 반영
+
+동료평가에서 받은 **보완 의견 15개**를 어디에 반영했는지 정리했습니다. 사이트 동작 코드는 바꾸지 않았고(문서의 줄 번호 링크 유지), 에러 문구 · 저장 실패 안내 · 주석은 **같은 줄 안에서만** 고쳤습니다.
+
+| # | 피드백 (부족한 점) | 반영 내용 | 위치 |
+|:---:|---|---|---|
+| 1 | 반응형 검증이 요약뿐, CI 증거 없음 | 브레이크포인트 4개 자동 검사 + 스냅샷, push마다 CI 실행 · 배지 | [스냅샷](#브레이크포인트별-렌더-자동-검증-스냅샷), [19장](#19-자동-검증-ci), [9.2 검증](#모바일-퍼스트--브레이크포인트에서-바뀌는-것) |
+| 2 | `localStorage` 실패 시 설명 부족 | 저장이 막히면 이번 방문에만 적용 + 버튼 툴팁 안내 (코드 [theme.js#L32](js/theme.js#L32)) | [9.4 ① 다크 모드](#94-상태--렌더링-흐름) |
+| 3 | 햄버거 · 스크롤 애니메이션 키보드 접근성 기록 없음 | 단계별 Tab · Enter · Esc 포커스 흐름과 스크린 리더 전달 내용 표, 자동 키보드 검사 | [12장 햄버거 메뉴](#햄버거-메뉴--키보드--스크린-리더-동작-768px-미만) |
+| 4 | 실제 네트워크 실패 · 레이트 리밋 스크린샷 없음 | 실제 `fetch` 경로 스크린샷 2장 + 캡처 · 재현 절차 | [상태별 UI](#상태별-ui-github-api), [캡처 · 재현 절차](#캡처--재현-절차) |
+| 5 | 유니코드 이메일 호환성 언급 없음 | 정규식이 허용 · 거부하는 예, RFC 5322 전체가 아님, 실제 확인은 전송으로 (코드 주석 [contact.js#L22](js/contact.js#L22)) | [이메일 정규식의 한계](#이메일-정규식의-한계) |
+| 6 | 이미지 최적화 안내 없음 | 현재 SVG 2개뿐 · 빌드 없음 이유, 사진이면 WebP/AVIF · `srcset` · `lazy` | [5장](#5-폴더-구조), [16장](#16-알려진-한계--개선-아이디어) |
+| 7 | `aria-live` 사용 이유 설명 부족 | 라이브 영역 3곳 · 이유 · 비어 있어도 남겨 두는 이유 · 랜드마크는 고정 | [12장 동적 콘텐츠 알림](#동적-콘텐츠-알림-aria-live) |
+| 8 | 토큰 추가 가이드라인 없음 | 색 · 간격 · 글자 크기 이름 규칙, 다크 테마 양쪽 정의 규칙 | [9.2 디자인 토큰](#디자인-토큰-css-변수) |
+| 9 | 이벤트 핸들러가 파일별로 흩어짐 | 파일 → 듣는 이벤트 요약표 | [9.5](#95-이벤트-목록) |
+| 10 | 이벤트 → 상태 → 렌더 자동 검증 없음 | 시퀀스 다이어그램 3개 + 흐름 체크리스트, C 그룹 32개 자동 검사 | [9.4 시퀀스](#시퀀스로-보기--settheme--setprojectstate--setformstate) |
+| 11 | fetch 실패 원인 메시지가 제한적 | 원인별 문구에 할 일 추가(네트워크 · 시간 초과 · 레이트 리밋 · 403 · 404 · 5xx) | [9.6 문구 표](#96-비동기--에러-처리) |
+| 12 | `innerHTML` escape 정책 언급 부족 | escape 대상 · 예외 · URL 검사 · `textContent` · `data-*` 규칙, XSS 자동 검사 | [13장 escape 정책](#외부-문자열-삽입-규칙-escape-정책) |
+| 13 | Flex/Grid 선택 근거가 코드에 없음 | 헤더 · 카드 · About · Skills에 같은 줄 주석 | [9.2 Flexbox vs Grid](#flexbox-vs-grid--어디에-무엇을-왜) |
+| 14 | 상태 이름 · 파일 경계 규칙 문서 부족 | 이름 규칙 표 + 파일 경계 규칙, 전역 이름 중복 자동 검사 | [9.3](#일반-스크립트는-전역-스코프를-공유한다--이름-충돌을-어떻게-피했나) |
+| 15 | 접근성 자동 검사 기록 없음 | 접근성 체크리스트(스킵 링크 · 대비 수치 · 포커스 순서 · 동작 줄이기 · 고대비) + D 그룹 16개 자동 검사 | [12장 접근성 체크리스트](#접근성-체크리스트) |
 
 ---
 

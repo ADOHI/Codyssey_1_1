@@ -1,0 +1,20 @@
+# 자동 검증: main에 push하거나 PR을 올리면 scripts/verify.mjs를 실행한다.
+# 외부 패키지 설치(npm install) 없이 러너에 기본 설치된 Chrome + Node만 쓴다.
+# 결과 표는 Actions 실행 화면의 Summary 탭에도 표시된다 ($GITHUB_STEP_SUMMARY).
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run verification (Chrome headless + CDP)
+        run: CHROME_PATH=$(which google-chrome) node scripts/verify.mjs --report "$GITHUB_STEP_SUMMARY"
