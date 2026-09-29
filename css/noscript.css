@@ -10,18 +10,27 @@
 }
 
 /* JS가 필요한 버튼은 숨긴다 */
-.theme-toggle,
-.nav-toggle,
+.header__actions,
 .scroll-top,
 .project-toolbar,
 .project-more-wrap {
   display: none;
 }
 
+/* 투명한 고정 헤더가 본문을 가리지 않도록 일반 배치 + 배경색 */
+.header {
+  position: absolute;
+  height: auto;
+  min-height: var(--header-height);
+  background-color: var(--color-bg);
+}
+
 /* 햄버거 버튼 없이도 메뉴를 쓸 수 있도록 모바일에서도 메뉴를 한 줄로 펼친다 */
 .nav__menu {
   position: static;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 0;
   padding: 0;
   background: none;

@@ -49,13 +49,11 @@ const eraseWord = async (word) => {
 };
 
 const runTypingEffect = async () => {
-  // '동작 줄이기' 설정이면 HTML에 적힌 첫 문구를 그대로 둔다
-  if (prefersReducedMotion()) return;
-
   let wordIndex = 0; // HTML에 첫 단어가 이미 적혀 있으므로 '지우기'부터 시작한다
 
-  // await가 매번 제어권을 브라우저에 돌려주므로, 무한 반복이어도 화면이 멈추지 않는다
-  while (true) {
+  // '동작 줄이기' 설정이면(도중에 켜도) 반복을 멈추고 마지막으로 완성된 문구를 그대로 둔다.
+  // await가 매번 제어권을 브라우저에 돌려주므로, 반복이 계속되어도 화면이 멈추지 않는다.
+  while (!prefersReducedMotion()) {
     await sleep(HOLD_DELAY);
     await eraseWord(TYPING_WORDS[wordIndex]);
     wordIndex = (wordIndex + 1) % TYPING_WORDS.length;

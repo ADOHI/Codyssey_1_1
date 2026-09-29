@@ -99,6 +99,7 @@
 
       <nav class="nav" aria-label="주요 메뉴">
         <ul class="nav__menu" id="nav-menu">
+          <li><a class="nav__link" href="#hero">Home</a></li>
           <li><a class="nav__link" href="#about">About</a></li>
           <li><a class="nav__link" href="#skills">Skills</a></li>
           <li><a class="nav__link" href="#projects">Projects</a></li>
@@ -189,57 +190,66 @@
           <p class="section-head__desc">GitHub 저장소에서 실제로 사용한 기술을 분야별로 정리했습니다.</p>
         </header>
 
+        <!-- li는 등장 애니메이션(.reveal), article은 카드 모양과 hover를 맡는다 (transform 충돌 방지) -->
         <ul class="skills__grid">
-          <li class="skill-card reveal">
-            <span class="skill-card__icon" aria-hidden="true"><svg class="icon"><use href="#icon-gamepad"></use></svg></span>
-            <h3 class="skill-card__title">Game Development</h3>
-            <p class="skill-card__desc">게임 엔진과 게임플레이 구현</p>
-            <ul class="tag-list">
-              <li class="tag">Unity</li>
-              <li class="tag">Godot 4</li>
-              <li class="tag">C#</li>
-              <li class="tag">GDScript</li>
-              <li class="tag">Toon Shader</li>
-              <li class="tag">Game Jam</li>
-            </ul>
+          <li class="reveal">
+            <article class="skill-card">
+              <span class="skill-card__icon" aria-hidden="true"><svg class="icon"><use href="#icon-gamepad"></use></svg></span>
+              <h3 class="skill-card__title">Game Development</h3>
+              <p class="skill-card__desc">게임 엔진과 게임플레이 구현</p>
+              <ul class="tag-list">
+                <li class="tag">Unity</li>
+                <li class="tag">Godot 4</li>
+                <li class="tag">C#</li>
+                <li class="tag">GDScript</li>
+                <li class="tag">Toon Shader</li>
+                <li class="tag">Game Jam</li>
+              </ul>
+            </article>
           </li>
-          <li class="skill-card reveal">
-            <span class="skill-card__icon" aria-hidden="true"><svg class="icon"><use href="#icon-code"></use></svg></span>
-            <h3 class="skill-card__title">Languages</h3>
-            <p class="skill-card__desc">프로젝트에서 사용해 본 언어</p>
-            <ul class="tag-list">
-              <li class="tag">C#</li>
-              <li class="tag">Python</li>
-              <li class="tag">Java</li>
-              <li class="tag">C++</li>
-              <li class="tag">JavaScript</li>
-              <li class="tag">TypeScript</li>
-            </ul>
+          <li class="reveal">
+            <article class="skill-card">
+              <span class="skill-card__icon" aria-hidden="true"><svg class="icon"><use href="#icon-code"></use></svg></span>
+              <h3 class="skill-card__title">Languages</h3>
+              <p class="skill-card__desc">프로젝트에서 사용해 본 언어</p>
+              <ul class="tag-list">
+                <li class="tag">C#</li>
+                <li class="tag">Python</li>
+                <li class="tag">Java</li>
+                <li class="tag">C++</li>
+                <li class="tag">JavaScript</li>
+                <li class="tag">TypeScript</li>
+              </ul>
+            </article>
           </li>
-          <li class="skill-card reveal">
-            <span class="skill-card__icon" aria-hidden="true"><svg class="icon"><use href="#icon-layout"></use></svg></span>
-            <h3 class="skill-card__title">Web Frontend</h3>
-            <p class="skill-card__desc">이 포트폴리오를 만든 기술</p>
-            <ul class="tag-list">
-              <li class="tag">HTML5</li>
-              <li class="tag">CSS3</li>
-              <li class="tag">Flexbox · Grid</li>
-              <li class="tag">JavaScript ES6+</li>
-              <li class="tag">Fetch API</li>
-              <li class="tag">GitHub Pages</li>
-            </ul>
+          <li class="reveal">
+            <article class="skill-card">
+              <span class="skill-card__icon" aria-hidden="true"><svg class="icon"><use href="#icon-layout"></use></svg></span>
+              <h3 class="skill-card__title">Web Frontend</h3>
+              <p class="skill-card__desc">이 포트폴리오를 만든 기술</p>
+              <ul class="tag-list">
+                <li class="tag">HTML5</li>
+                <li class="tag">CSS3</li>
+                <li class="tag">Flexbox · Grid</li>
+                <li class="tag">JavaScript ES6+</li>
+                <li class="tag">Fetch API</li>
+                <li class="tag">GitHub Pages</li>
+              </ul>
+            </article>
           </li>
-          <li class="skill-card reveal">
-            <span class="skill-card__icon" aria-hidden="true"><svg class="icon"><use href="#icon-tool"></use></svg></span>
-            <h3 class="skill-card__title">Tools &amp; AI</h3>
-            <p class="skill-card__desc">개발 도구와 관심 기술</p>
-            <ul class="tag-list">
-              <li class="tag">Git · GitHub</li>
-              <li class="tag">MySQL</li>
-              <li class="tag">Shell · PowerShell</li>
-              <li class="tag">TensorFlow · Keras</li>
-              <li class="tag">OpenCV · MediaPipe</li>
-            </ul>
+          <li class="reveal">
+            <article class="skill-card">
+              <span class="skill-card__icon" aria-hidden="true"><svg class="icon"><use href="#icon-tool"></use></svg></span>
+              <h3 class="skill-card__title">Tools &amp; AI</h3>
+              <p class="skill-card__desc">개발 도구와 관심 기술</p>
+              <ul class="tag-list">
+                <li class="tag">Git · GitHub</li>
+                <li class="tag">MySQL</li>
+                <li class="tag">Shell · PowerShell</li>
+                <li class="tag">TensorFlow · Keras</li>
+                <li class="tag">OpenCV · MediaPipe</li>
+              </ul>
+            </article>
           </li>
         </ul>
       </div>
@@ -309,13 +319,13 @@
 
             <div class="form-field">
               <label for="contact-name">이름 <span class="form-field__required" aria-hidden="true">*</span></label>
-              <input type="text" id="contact-name" name="name" autocomplete="name" maxlength="50" placeholder="홍길동" required aria-describedby="contact-name-error">
+              <input type="text" id="contact-name" name="name" autocomplete="name" maxlength="50" placeholder="예: 홍길동" required aria-describedby="contact-name-error">
               <p class="form-field__error" id="contact-name-error"></p>
             </div>
 
             <div class="form-field">
               <label for="contact-email">이메일 <span class="form-field__required" aria-hidden="true">*</span></label>
-              <input type="email" id="contact-email" name="email" autocomplete="email" maxlength="100" placeholder="name@example.com" required aria-describedby="contact-email-error">
+              <input type="email" id="contact-email" name="email" autocomplete="email" maxlength="100" placeholder="예: name@example.com" required aria-describedby="contact-email-error">
               <p class="form-field__error" id="contact-email-error"></p>
             </div>
 

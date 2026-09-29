@@ -19,7 +19,8 @@ const FIELD_NAMES = ['name', 'email', 'message'];
 const NAME_MIN_LENGTH = 2;
 const MESSAGE_MIN_LENGTH = 10;
 const MESSAGE_MAX_LENGTH = 1000;
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/; // 아이디@도메인.최상위도메인(2자 이상)
+// 아이디@도메인.최상위도메인(2자 이상) — 도메인의 각 부분은 비어 있을 수 없다 (a@b..com, a@.com 거부)
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@.]+(?:\.[^\s@.]+)*\.[^\s@.]{2,}$/;
 const SEND_TIMEOUT = 10000;
 
 // Formspree 주소는 index.html의 form action 한 곳에서만 관리한다
@@ -41,9 +42,7 @@ const validators = {
   },
   message: (value) => {
     if (!value) return '메시지를 입력해 주세요.';
-    if (value.length < MESSAGE_MIN_LENGTH) {
-      return `메시지는 ${MESSAGE_MIN_LENGTH}자 이상 입력해 주세요. (현재 ${value.length}자)`;
-    }
+    if (value.length < MESSAGE_MIN_LENGTH) return `메시지는 ${MESSAGE_MIN_LENGTH}자 이상 입력해 주세요.`;
     return '';
   },
 };
@@ -86,6 +85,7 @@ const STATUS_MESSAGES = {
 const renderForm = () => {
   const { values, touched, status } = formState;
   const errors = validateForm(values);
+  const isSubmitting = status === 'submitting';
 
   // 필드별 에러 메시지 표시/숨김 + 빨간 테두리 + 스크린 리더용 aria-invalid
   FIELD_NAMES.forEach((field) => {
@@ -96,11 +96,11 @@ const renderForm = () => {
     errorElement.textContent = message;
     input.classList.toggle('invalid', message !== '');
     input.setAttribute('aria-invalid', String(message !== ''));
+    input.readOnly = isSubmitting; // 전송 중에 고친 내용이 초기화로 사라지지 않도록 잠근다
   });
 
   messageCounter.textContent = `${values.message.length} / ${MESSAGE_MAX_LENGTH}`;
 
-  const isSubmitting = status === 'submitting';
   submitButton.disabled = isSubmitting;
   submitButton.textContent = isSubmitting ? '전송 중...' : '메시지 보내기';
 
@@ -178,6 +178,9 @@ contactForm.addEventListener('submit', async (event) => {
     console.error('[Contact] 메시지 전송에 실패했습니다.', error);
     setFormState({ status: 'error' });
   }
+
+  // 전송 중 버튼이 비활성화되며 포커스가 사라졌다면 버튼으로 되돌린다 (키보드·스크린 리더 사용자 배려)
+  if (document.activeElement === document.body) submitButton.focus();
 });
 
 // 첫 렌더

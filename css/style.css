@@ -4,7 +4,7 @@
    작성 원칙
    - 모바일 퍼스트: 기본 스타일은 모바일 기준, 화면이 커질수록 min-width 미디어 쿼리로 확장
    - 브레이크포인트: 768px(태블릿), 1024px(데스크톱)
-   - 색상·폰트·간격은 모두 :root의 CSS 변수로 관리하고, 다크 모드는 변수 값만 바꾼다
+   - 색상·폰트·간격은 :root의 CSS 변수(디자인 토큰)로 관리하고, 다크 모드는 변수 값만 바꾼다
 
    목차
     1. 디자인 토큰 (CSS 변수) — 라이트 / 다크
@@ -23,6 +23,7 @@
    14. 반응형 — 태블릿 (768px 이상)
    15. 반응형 — 데스크톱 (1024px 이상)
    16. 동작 줄이기 (prefers-reduced-motion)
+   17. 고대비 모드 (forced-colors)
    ===================================================================== */
 
 
@@ -37,13 +38,14 @@
   --color-text: #16161a;
   --color-text-muted: #5b5b66;
   --color-border: #e4e5ea;
+  --color-border-strong: #8a8d99;  /* 입력칸 테두리: 배경 대비 3:1 이상 */
   --color-primary: #4353ff;
   --color-primary-hover: #2e3de0;
   --color-primary-soft: #eef0ff;
   --color-on-primary: #ffffff;
-  --color-error: #d92d20;
+  --color-error: #b42318;
   --color-success: #067647;
-  --color-header-bg: rgba(255, 255, 255, 0.85);
+  --color-header-bg: rgba(246, 247, 249, 0.9);
   --color-dot: #dcdde3;
 
   /* 그림자 */
@@ -54,6 +56,7 @@
   /* 폰트 */
   --font-sans: 'Noto Sans KR', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+  --fs-2xs: 0.75rem;
   --fs-xs: 0.8125rem;
   --fs-sm: 0.875rem;
   --fs-base: 1rem;
@@ -95,13 +98,14 @@
   --color-text: #ececf1;
   --color-text-muted: #a3a6b3;
   --color-border: #2a2d37;
+  --color-border-strong: #5d6170;
   --color-primary: #8c96ff;
   --color-primary-hover: #aab1ff;
   --color-primary-soft: #1e2140;
   --color-on-primary: #0e0f13;
   --color-error: #ff7a6e;
   --color-success: #4ade80;
-  --color-header-bg: rgba(14, 15, 19, 0.85);
+  --color-header-bg: rgba(26, 28, 35, 0.9);
   --color-dot: #262932;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
@@ -153,7 +157,8 @@ a {
   text-decoration: none;
 }
 
-ul[class] {
+/* :where()는 명시도가 0이라 .nav__menu 같은 클래스의 padding 설정을 덮어쓰지 않는다 */
+:where(ul[class]) {
   list-style: none;
   padding: 0;
 }
@@ -253,7 +258,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  padding: 0.75rem 1.5rem;
+  padding: var(--space-3) var(--space-5);
   border: 1.5px solid transparent;
   border-radius: var(--radius-full);
   font-weight: 700;
@@ -393,16 +398,22 @@ button {
   opacity: 0;
   visibility: hidden; /* 닫혀 있을 때는 Tab 키로도 접근되지 않게 */
   transform: translateY(-8px);
+  /* 닫힐 때: 흐려지는 효과가 끝난 뒤(0.2s 후) visibility를 hidden으로 */
   transition:
     opacity var(--transition-fast),
     transform var(--transition-fast),
-    visibility var(--transition-fast);
+    visibility 0s 0.2s;
 }
 
 .nav__menu.active {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+  /* 열릴 때: visibility는 즉시 visible → 바로 첫 링크에 포커스를 줄 수 있다 */
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast),
+    visibility 0s;
 }
 
 .nav__link {
@@ -673,6 +684,7 @@ button {
 }
 
 .skill-card {
+  height: 100%;
   padding: var(--space-5);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -776,17 +788,12 @@ button {
 
 .filter-btn__count {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  opacity: 0.75;
+  font-size: var(--fs-2xs);
 }
 
 .project-count {
   font-size: var(--fs-sm);
   color: var(--color-text-muted);
-}
-
-.project-count:empty {
-  display: none;
 }
 
 /*
@@ -810,7 +817,8 @@ button {
   border-radius: var(--radius-md);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-sm);
-  animation: fade-up 0.5s ease both;
+  /* backwards: 애니메이션이 끝난 뒤에는 transform을 붙잡지 않아 hover 이동이 동작한다 */
+  animation: fade-up 0.5s ease backwards;
   transition:
     transform var(--transition-base),
     box-shadow var(--transition-base),
@@ -867,7 +875,7 @@ button {
   z-index: 1; /* 카드 전체 링크보다 위에 있어야 따로 클릭된다 */
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--space-1);
   padding: 0.2rem 0.65rem;
   border-radius: var(--radius-full);
   background-color: var(--color-primary-soft);
@@ -894,7 +902,6 @@ button {
 
 .project-card__desc--empty {
   font-style: italic;
-  opacity: 0.75;
 }
 
 .project-card__topics {
@@ -908,8 +915,9 @@ button {
   border-radius: var(--radius-full);
   background-color: var(--color-primary-soft);
   color: var(--color-primary);
-  font-size: 0.75rem;
+  font-size: var(--fs-2xs);
   font-weight: 500;
+  overflow-wrap: anywhere;
 }
 
 .project-card__meta {
@@ -964,11 +972,12 @@ button {
 .lang-dot[data-lang="Jupyter Notebook"] { background-color: #da5b0b; }
 .lang-dot[data-lang="Kotlin"]           { background-color: #a97bff; }
 
-/* 상태 UI (로딩 / 에러 / 빈 상태) 공통 */
-.project-status:empty {
-  display: none;
+/* 다크 모드에서 어두운 언어 색(PowerShell 등)도 보이도록 테두리 */
+[data-theme="dark"] .lang-dot {
+  box-shadow: 0 0 0 1px var(--color-text-muted);
 }
 
+/* 상태 UI (로딩 / 에러 / 빈 상태) 공통 */
 .state {
   display: flex;
   flex-direction: column;
@@ -1134,8 +1143,8 @@ button {
 .form-field input,
 .form-field textarea {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--color-border);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-sm);
   background-color: var(--color-bg);
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
@@ -1144,7 +1153,6 @@ button {
 .form-field input::placeholder,
 .form-field textarea::placeholder {
   color: var(--color-text-muted);
-  opacity: 0.7;
 }
 
 .form-field input:focus,
@@ -1182,7 +1190,7 @@ button {
 .message-counter {
   margin-left: auto;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: var(--fs-2xs);
   color: var(--color-text-muted);
   white-space: nowrap;
 }
@@ -1204,7 +1212,7 @@ button {
 }
 
 .form-status:empty {
-  display: none;
+  padding: 0; /* display:none이면 스크린 리더가 새 메시지를 놓칠 수 있어 크기만 0으로 */
 }
 
 .form-status.success {
@@ -1382,6 +1390,11 @@ button {
     align-self: flex-end;
   }
 
+  /* 고정된 스크롤 탑 버튼이 푸터 링크를 가리지 않도록 아래 여백 확보 */
+  .footer {
+    padding-bottom: calc(var(--space-6) + 48px + var(--space-5));
+  }
+
   .footer__inner {
     flex-direction: row;
     justify-content: space-between;
@@ -1430,10 +1443,21 @@ button {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     transition-delay: 0s !important;
+    animation-delay: 0s !important;
   }
 
   .reveal {
     opacity: 1;
     transform: none;
+  }
+}
+
+
+/* =====================================================================
+   17. 고대비 모드 (Windows forced-colors) — 배경색으로 그린 햄버거 선이 사라지지 않게
+   ===================================================================== */
+@media (forced-colors: active) {
+  .nav-toggle__bar {
+    background-color: CanvasText;
   }
 }

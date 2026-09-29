@@ -41,6 +41,13 @@ navToggle.addEventListener('click', () => {
   // classList.toggle은 클래스를 붙였다 뗐다 하고, 결과(붙었으면 true)를 돌려준다
   const isOpen = navMenu.classList.toggle('active');
   syncNavToggle(isOpen);
+  // 메뉴는 HTML에서 버튼보다 앞에 있으므로, 열자마자 첫 링크로 포커스를 옮겨 Tab 순서를 자연스럽게 한다
+  if (isOpen) navMenu.querySelector('.nav__link').focus();
+});
+
+// 메뉴를 연 채로 화면이 768px 이상이 되면(예: 휴대폰 가로 회전) 메뉴 상태를 초기화한다
+window.matchMedia('(min-width: 768px)').addEventListener('change', (event) => {
+  if (event.matches) closeNavMenu();
 });
 
 // Esc 키로 메뉴 닫기 (키보드 사용자 배려)
@@ -70,7 +77,9 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 
     event.preventDefault(); // 기본 동작(순간 이동)을 막고 직접 부드럽게 이동시킨다
     target.scrollIntoView({ behavior: getScrollBehavior() });
-    history.pushState(null, '', targetId); // 주소창에도 #섹션 반영 (뒤로 가기 지원)
+    // 주소창에도 #섹션 반영 (뒤로 가기 지원). 같은 링크를 또 누르면 기록을 쌓지 않고 교체한다
+    if (location.hash === targetId) history.replaceState(null, '', targetId);
+    else history.pushState(null, '', targetId);
 
     // 키보드·스크린 리더 사용자를 위해 포커스도 이동한 섹션으로 옮긴다
     if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');

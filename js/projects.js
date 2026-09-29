@@ -231,15 +231,13 @@ const fetchRepos = async () => {
   if (!response.ok) {
     // 403/429: 인증 없이 호출하면 IP당 시간당 60회로 제한된다 (레이트 리밋)
     if (response.status === 403 || response.status === 429) {
-      const resetSeconds = Number(response.headers.get('x-ratelimit-reset'));
-      const resetTime = resetSeconds
-        ? new Date(resetSeconds * 1000).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })
-        : null;
-      throw new Error(
-        resetTime
-          ? `GitHub API 요청 한도(시간당 60회)를 초과했습니다. ${resetTime} 이후에 다시 시도해 주세요.`
-          : `GitHub API 요청이 거부되었습니다. (HTTP ${response.status}) 잠시 후 다시 시도해 주세요.`,
-      );
+      const isRateLimited = response.headers.get('x-ratelimit-remaining') === '0';
+      if (isRateLimited) {
+        const resetSeconds = Number(response.headers.get('x-ratelimit-reset'));
+        const resetTime = new Date(resetSeconds * 1000).toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
+        throw new Error(`GitHub API 요청 한도(시간당 60회)를 초과했습니다. ${resetTime} 이후에 다시 시도해 주세요.`);
+      }
+      throw new Error(`GitHub API 요청이 거부되었습니다. (HTTP ${response.status}) 잠시 후 다시 시도해 주세요.`);
     }
     if (response.status === 404) throw new Error(`GitHub 사용자 '${GITHUB_USERNAME}'를 찾을 수 없습니다.`);
     throw new Error(`GitHub 서버에서 오류가 발생했습니다. (HTTP ${response.status})`);
@@ -276,8 +274,13 @@ projectFilters.addEventListener('click', (event) => {
   setProjectState({ filter: button.dataset.filter, visibleCount: PAGE_SIZE });
 });
 
-projectStatus.addEventListener('click', (event) => {
-  if (event.target.closest('.retry-btn')) loadRepos();
+projectStatus.addEventListener('click', async (event) => {
+  if (!event.target.closest('.retry-btn')) return;
+  await loadRepos();
+  // 누른 버튼이 다시 그려지며 사라졌으므로, 결과 화면의 첫 버튼으로 포커스를 돌려준다 (키보드 사용자 배려)
+  if (document.activeElement === document.body) {
+    (projectStatus.querySelector('.retry-btn') ?? projectFilters.querySelector('.filter-btn'))?.focus();
+  }
 });
 
 projectMoreButton.addEventListener('click', () => {
