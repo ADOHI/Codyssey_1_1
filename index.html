@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ADOHI | Indie Game Developer</title>
+  <meta name="description" content="인디 게임 개발자 ADOHI의 포트폴리오입니다. Unity·Godot 게임 프로젝트와 GitHub 저장소를 소개합니다.">
+  <meta name="author" content="ADOHI">
+
+  <!-- 링크 공유 미리보기 (Open Graph) -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ADOHI | Indie Game Developer">
+  <meta property="og:description" content="Unity·Godot으로 게임을 만드는 인디 게임 개발자 ADOHI의 포트폴리오">
+  <meta property="og:url" content="https://adohi.github.io/Codyssey_1_1/">
+  <meta property="og:image" content="https://adohi.github.io/Codyssey_1_1/images/screenshots/desktop-light.png">
+
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+
+  <!-- 웹 폰트: Google Fonts (과제에서 허용된 외부 리소스) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
+
+  <!-- 외부 스타일시트 -->
+  <link rel="stylesheet" href="css/style.css">
+  <!-- JavaScript가 꺼진 환경에서만 적용되는 보조 스타일 -->
+  <noscript><link rel="stylesheet" href="css/noscript.css"></noscript>
+
+  <!--
+    JavaScript 연결: defer
+    - HTML 파싱을 멈추지 않고 내려받은 뒤, 파싱이 끝나면 "적힌 순서대로" 실행된다.
+    - 그래서 querySelector로 요소를 찾을 때 요소가 이미 존재함이 보장된다.
+    - utils.js의 공통 함수를 다른 파일이 쓰므로 utils.js를 가장 먼저 둔다.
+  -->
+  <script src="js/utils.js" defer></script>
+  <script src="js/theme.js" defer></script>
+  <script src="js/layout.js" defer></script>
+  <script src="js/effects.js" defer></script>
+  <script src="js/projects.js" defer></script>
+  <script src="js/contact.js" defer></script>
+</head>
+<body>
+  <!-- 키보드 사용자가 반복되는 메뉴를 건너뛰고 본문으로 바로 이동하는 링크 -->
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+  <!--
+    아이콘 스프라이트: 아이콘을 한 번만 정의하고 <use href="#icon-..."> 로 재사용한다.
+    아이콘 출처: Feather Icons (MIT), Lucide (ISC)
+  -->
+  <svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+    <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </symbol>
+    <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </symbol>
+    <symbol id="icon-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>
+    </symbol>
+    <symbol id="icon-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+    </symbol>
+    <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+    </symbol>
+    <symbol id="icon-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </symbol>
+    <symbol id="icon-fork" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/>
+    </symbol>
+    <symbol id="icon-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </symbol>
+    <symbol id="icon-inbox" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="22 12 16 12 14 15 10 15 8 12 2 12"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>
+    </symbol>
+    <symbol id="icon-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+    </symbol>
+    <symbol id="icon-gamepad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/>
+    </symbol>
+    <symbol id="icon-code" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>
+    </symbol>
+    <symbol id="icon-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/>
+    </symbol>
+    <symbol id="icon-tool" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+    </symbol>
+  </svg>
+
+  <!-- ===================== Header / Navigation ===================== -->
+  <header class="header">
+    <div class="container header__inner">
+      <a class="logo" href="#hero" aria-label="ADOHI, 맨 위로 이동">ADOHI<span class="logo__dot" aria-hidden="true">.</span></a>
+
+      <nav class="nav" aria-label="주요 메뉴">
+        <ul class="nav__menu" id="nav-menu">
+          <li><a class="nav__link" href="#about">About</a></li>
+          <li><a class="nav__link" href="#skills">Skills</a></li>
+          <li><a class="nav__link" href="#projects">Projects</a></li>
+          <li><a class="nav__link" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__actions">
+        <button type="button" class="icon-btn theme-toggle" aria-label="다크 모드" aria-pressed="false">
+          <svg class="icon icon--moon" aria-hidden="true"><use href="#icon-moon"></use></svg>
+          <svg class="icon icon--sun" aria-hidden="true"><use href="#icon-sun"></use></svg>
+        </button>
+        <button type="button" class="icon-btn nav-toggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="nav-menu">
+          <span class="nav-toggle__bar"></span>
+          <span class="nav-toggle__bar"></span>
+          <span class="nav-toggle__bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===================== Hero ===================== -->
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="container hero__inner">
+        <p class="hero__greeting">Hello, World! 👋</p>
+        <h1 class="hero__title" id="hero-title">안녕하세요,<br>저는 <span class="hero__name">ADOHI</span>입니다.</h1>
+        <p class="hero__role">
+          <!-- 스크린 리더는 전체 문구를 한 번에 읽고, 화면에는 타이핑 효과가 보인다 -->
+          <span class="sr-only">Indie Game Developer, Unity &amp; Godot Creator, Game Jam Lover, Web Developer in Progress</span>
+          <span class="hero__typing" aria-hidden="true">Indie Game Developer</span>
+        </p>
+        <p class="hero__desc">게임잼에서 아이디어를 빠르게 플레이 가능한 게임으로 만들고, 지금은 웹 개발의 기초를 차근차근 다지고 있습니다.</p>
+        <div class="hero__cta">
+          <a class="btn btn--primary" href="#projects">프로젝트 보기</a>
+          <a class="btn btn--outline" href="#contact">연락하기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== About ===================== -->
+    <section class="section about" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-head__eyebrow">01 · About</p>
+          <h2 class="section-head__title" id="about-title">About Me</h2>
+        </header>
+
+        <div class="about__grid">
+          <figure class="about__photo reveal">
+            <img src="images/profile.svg" alt="헤드폰을 쓰고 웃고 있는 ADOHI의 픽셀 아트 프로필 캐릭터" width="240" height="240">
+          </figure>
+
+          <div class="about__content reveal">
+            <p>안녕하세요, 인디 게임 개발자 <strong>ADOHI</strong>입니다. <strong>ADO STUDIO</strong>에서 Unity와 Godot으로 작은 게임을 만들고 있습니다.</p>
+            <p>짧은 시간 안에 아이디어를 플레이 가능한 프로토타입으로 만드는 과정을 좋아해 여러 게임잼에 참가해 왔고, 얼굴 인식·MediaPipe·Stable Diffusion처럼 게임에 AI와 컴퓨터 비전 기술을 접목하는 실험에도 관심이 많습니다.</p>
+            <p>지금은 Codyssey 과정에서 데이터베이스와 자료구조, 그리고 웹의 기초를 다지고 있습니다. 이 사이트도 외부 라이브러리 없이 순수 HTML·CSS·JavaScript만으로 처음부터 만들었습니다.</p>
+
+            <dl class="about__facts">
+              <div class="about__fact">
+                <dt>소속</dt>
+                <dd>ADO STUDIO</dd>
+              </div>
+              <div class="about__fact">
+                <dt>주력 엔진</dt>
+                <dd>Unity · Godot</dd>
+              </div>
+              <div class="about__fact">
+                <dt>관심 분야</dt>
+                <dd>게임잼 · 게임 × AI</dd>
+              </div>
+              <div class="about__fact">
+                <dt>지금 하는 일</dt>
+                <dd>Codyssey 웹 기초 학습</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== Skills ===================== -->
+    <section class="section section--alt skills" id="skills" aria-labelledby="skills-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-head__eyebrow">02 · Skills</p>
+          <h2 class="section-head__title" id="skills-title">Skills</h2>
+          <p class="section-head__desc">GitHub 저장소에서 실제로 사용한 기술을 분야별로 정리했습니다.</p>
+        </header>
+
+        <ul class="skills__grid">
+          <li class="skill-card reveal">
+            <span class="skill-card__icon" aria-hidden="true"><svg class="icon"><use href="#icon-gamepad"></use></svg></span>
+            <h3 class="skill-card__title">Game Development</h3>
+            <p class="skill-card__desc">게임 엔진과 게임플레이 구현</p>
+            <ul class="tag-list">
+              <li class="tag">Unity</li>
+              <li class="tag">Godot 4</li>
+              <li class="tag">C#</li>
+              <li class="tag">GDScript</li>
+              <li class="tag">Toon Shader</li>
+              <li class="tag">Game Jam</li>
+            </ul>
+          </li>
+          <li class="skill-card reveal">
+            <span class="skill-card__icon" aria-hidden="true"><svg class="icon"><use href="#icon-code"></use></svg></span>
+            <h3 class="skill-card__title">Languages</h3>
+            <p class="skill-card__desc">프로젝트에서 사용해 본 언어</p>
+            <ul class="tag-list">
+              <li class="tag">C#</li>
+              <li class="tag">Python</li>
+              <li class="tag">Java</li>
+              <li class="tag">C++</li>
+              <li class="tag">JavaScript</li>
+              <li class="tag">TypeScript</li>
+            </ul>
+          </li>
+          <li class="skill-card reveal">
+            <span class="skill-card__icon" aria-hidden="true"><svg class="icon"><use href="#icon-layout"></use></svg></span>
+            <h3 class="skill-card__title">Web Frontend</h3>
+            <p class="skill-card__desc">이 포트폴리오를 만든 기술</p>
+            <ul class="tag-list">
+              <li class="tag">HTML5</li>
+              <li class="tag">CSS3</li>
+              <li class="tag">Flexbox · Grid</li>
+              <li class="tag">JavaScript ES6+</li>
+              <li class="tag">Fetch API</li>
+              <li class="tag">GitHub Pages</li>
+            </ul>
+          </li>
+          <li class="skill-card reveal">
+            <span class="skill-card__icon" aria-hidden="true"><svg class="icon"><use href="#icon-tool"></use></svg></span>
+            <h3 class="skill-card__title">Tools &amp; AI</h3>
+            <p class="skill-card__desc">개발 도구와 관심 기술</p>
+            <ul class="tag-list">
+              <li class="tag">Git · GitHub</li>
+              <li class="tag">MySQL</li>
+              <li class="tag">Shell · PowerShell</li>
+              <li class="tag">TensorFlow · Keras</li>
+              <li class="tag">OpenCV · MediaPipe</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== Projects (GitHub API) ===================== -->
+    <section class="section projects" id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-head__eyebrow">03 · Projects</p>
+          <h2 class="section-head__title" id="projects-title">Projects</h2>
+          <p class="section-head__desc">GitHub API로 실시간으로 불러온 저장소입니다. 직접 만든 저장소만 최근 업데이트 순으로 보여 줍니다.</p>
+        </header>
+
+        <!-- 아래 영역들은 js/projects.js가 상태(로딩/성공/에러/빈 상태)에 따라 채운다 -->
+        <div class="project-toolbar">
+          <div class="project-filters" role="group" aria-label="언어별 필터" hidden></div>
+          <p class="project-count" aria-live="polite"></p>
+        </div>
+
+        <div class="project-status" aria-live="polite"></div>
+        <div class="project-grid" aria-busy="false"></div>
+
+        <div class="project-more-wrap">
+          <button type="button" class="btn btn--outline project-more" hidden>더 보기</button>
+        </div>
+
+        <noscript>
+          <p class="state">프로젝트 목록을 보려면 JavaScript를 켜 주세요. <a href="https://github.com/ADOHI?tab=repositories">GitHub에서 저장소 보기</a></p>
+        </noscript>
+      </div>
+    </section>
+
+    <!-- ===================== Contact ===================== -->
+    <section class="section section--alt contact" id="contact" aria-labelledby="contact-title">
+      <div class="container">
+        <header class="section-head reveal">
+          <p class="section-head__eyebrow">04 · Contact</p>
+          <h2 class="section-head__title" id="contact-title">Contact</h2>
+          <p class="section-head__desc">함께 게임을 만들거나 이야기를 나누고 싶다면 편하게 연락 주세요.</p>
+        </header>
+
+        <div class="contact__grid">
+          <address class="contact__info reveal">
+            <a class="contact__link" href="mailto:adohi0824@gmail.com">
+              <span class="contact__link-icon" aria-hidden="true"><svg class="icon"><use href="#icon-mail"></use></svg></span>
+              <span>
+                <span class="contact__link-label">Email</span>
+                <span class="contact__link-value">adohi0824@gmail.com</span>
+              </span>
+            </a>
+            <a class="contact__link" href="https://github.com/ADOHI" target="_blank" rel="noopener noreferrer">
+              <span class="contact__link-icon" aria-hidden="true"><svg class="icon"><use href="#icon-github"></use></svg></span>
+              <span>
+                <span class="contact__link-label">GitHub <span class="sr-only">(새 창)</span></span>
+                <span class="contact__link-value">github.com/ADOHI</span>
+              </span>
+            </a>
+          </address>
+
+          <!--
+            novalidate: 브라우저 기본 검증 말풍선 대신 JS로 직접 검증하고 에러 메시지를 필드 아래에 보여 준다.
+            action: Formspree 주소. JS가 켜져 있으면 fetch로 전송하고, 꺼져 있으면 이 주소로 일반 전송된다.
+          -->
+          <form class="contact-form reveal" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+            <p class="form-note"><span class="form-field__required" aria-hidden="true">*</span> 표시는 필수 입력 항목입니다.</p>
+
+            <div class="form-field">
+              <label for="contact-name">이름 <span class="form-field__required" aria-hidden="true">*</span></label>
+              <input type="text" id="contact-name" name="name" autocomplete="name" maxlength="50" placeholder="홍길동" required aria-describedby="contact-name-error">
+              <p class="form-field__error" id="contact-name-error"></p>
+            </div>
+
+            <div class="form-field">
+              <label for="contact-email">이메일 <span class="form-field__required" aria-hidden="true">*</span></label>
+              <input type="email" id="contact-email" name="email" autocomplete="email" maxlength="100" placeholder="name@example.com" required aria-describedby="contact-email-error">
+              <p class="form-field__error" id="contact-email-error"></p>
+            </div>
+
+            <div class="form-field">
+              <label for="contact-message">메시지 <span class="form-field__required" aria-hidden="true">*</span></label>
+              <textarea id="contact-message" name="message" rows="6" maxlength="1000" placeholder="10자 이상 자유롭게 적어 주세요." required aria-describedby="contact-message-error contact-message-count"></textarea>
+              <div class="form-field__meta">
+                <p class="form-field__error" id="contact-message-error"></p>
+                <span class="message-counter" id="contact-message-count">0 / 1000</span>
+              </div>
+            </div>
+
+            <!-- 스팸 봇 방지용 숨김 필드(honeypot): 사람에게는 보이지 않고, 봇이 채우면 Formspree가 무시한다 -->
+            <div class="hp-field" aria-hidden="true">
+              <label for="contact-gotcha">이 칸은 비워 두세요</label>
+              <input type="text" id="contact-gotcha" name="_gotcha" tabindex="-1" autocomplete="off">
+            </div>
+
+            <button type="submit" class="btn btn--primary contact-form__submit">메시지 보내기</button>
+            <p class="form-status" role="status"></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== Footer ===================== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__copy">&copy; <span class="footer__year">2026</span> ADOHI. All rights reserved.</p>
+      <ul class="footer__social">
+        <li>
+          <a class="icon-btn" href="https://github.com/ADOHI" target="_blank" rel="noopener noreferrer" aria-label="GitHub (새 창)">
+            <svg class="icon" aria-hidden="true"><use href="#icon-github"></use></svg>
+          </a>
+        </li>
+        <li>
+          <a class="icon-btn" href="mailto:adohi0824@gmail.com" aria-label="이메일 보내기">
+            <svg class="icon" aria-hidden="true"><use href="#icon-mail"></use></svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+
+  <!-- 스크롤 탑 버튼: 300px 이상 스크롤하면 나타난다 (기준값은 js/layout.js의 SCROLL_TOP_THRESHOLD) -->
+  <button type="button" class="scroll-top" aria-label="맨 위로 이동">
+    <svg class="icon" aria-hidden="true"><use href="#icon-arrow-up"></use></svg>
+  </button>
+</body>
+</html>
